@@ -1,0 +1,61 @@
+<!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
+<!-- SPDX-License-Identifier: MIT-0 -->
+<html>
+  <head>
+    <link
+      href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+      }
+      #map {
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map" />
+    <script src="https://unpkg.com/maplibre-gl"></script>
+    <script src="https://unpkg.com/amazon-location-helpers"></script>
+    <script>
+      async function initializeMap() {
+        // Initialize the map
+        const map = await AmazonLocation.createMap(
+          {
+            // Cognito Identity Pool ID
+            identityPoolId: "<Identity Pool ID>",
+          },
+          {
+            container: "map",
+            // Initial center point
+            center: [-123.1187, 49.2819],
+            // Initial zoom level
+            zoom: 15,
+            // Amazon Location Service's Map name
+            style: "marker-with-popup-example",
+            hash: true,
+          }
+        );
+
+        // Add navigation controls
+        map.addControl(new maplibregl.NavigationControl(), "top-left");
+
+        // Configure a new popup
+        const popup = new maplibregl.Popup({ offset: 35 }).setHTML(
+          `<h3>Amazon YVR11</h3>
+          <p>510 W Georgia St #14, Vancouver, BC V6B 0M3</p>`
+        );
+
+        // Add a new marker and popup
+        const marker = new maplibregl.Marker()
+          .setLngLat([-123.11685, 49.2811])
+          .setPopup(popup)
+          .addTo(map);
+      }
+
+      initializeMap();
+    </script>
+  </body>
+</html>

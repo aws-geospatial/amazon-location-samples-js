@@ -1,0 +1,105 @@
+<!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
+<!-- SPDX-License-Identifier: MIT-0 -->
+<html>
+  <head>
+    <link
+      href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+      }
+      #map {
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map" />
+    <script src="https://unpkg.com/maplibre-gl"></script>
+    <script src="https://unpkg.com/amazon-location-helpers"></script>
+    <script>
+      async function initializeMap() {
+        // Initialize the map
+        const map = await AmazonLocation.createMap(
+          {
+            // Cognito Identity Pool ID
+            identityPoolId: "<Identity Pool ID>",
+          },
+          {
+            container: "map",
+            // Initial center point
+            center: [-123.12128, 49.281],
+            // Initial zoom level
+            zoom: 14,
+            // Amazon Location Service's Map name
+            style: "geojson-polygon-example",
+            hash: true,
+          }
+        );
+
+        // Add navigation controls
+        map.addControl(new maplibregl.NavigationControl(), "top-left");
+
+        map.on("load", () => {
+          // Add a data source containing GeoJSON data.
+          map.addSource("vancouver-downtown", {
+            type: "geojson",
+            data: {
+              type: "Feature",
+              geometry: {
+                type: "Polygon",
+                coordinates: [
+                  [
+                    [-123.11226, 49.29016],
+                    [-123.10424, 49.28816],
+                    [-123.09928, 49.28927],
+                    [-123.09999, 49.27275],
+                    [-123.10169, 49.27297],
+                    [-123.11107, 49.27292],
+                    [-123.11444, 49.27177],
+                    [-123.12116, 49.26953],
+                    [-123.12928, 49.26953],
+                    [-123.13768, 49.27531],
+                    [-123.13233, 49.27693],
+                    [-123.12109, 49.28436],
+                    [-123.13668, 49.29445],
+                    [-123.13468, 49.29581],
+                    [-123.12271, 49.2915],
+                    [-123.11226, 49.29016],
+                  ],
+                ],
+              },
+            },
+          });
+
+          // Add a new layer to visualize the polygon.
+          map.addLayer({
+            id: "vancouver-downtown",
+            type: "fill",
+            source: "vancouver-downtown", // reference the data source
+            layout: {},
+            paint: {
+              "fill-color": "#0080ff", // blue color fill
+              "fill-opacity": 0.5,
+            },
+          });
+          // Add an outline around the polygon.
+          map.addLayer({
+            id: "outline",
+            type: "line",
+            source: "vancouver-downtown",
+            layout: {},
+            paint: {
+              "line-color": "#000",
+              "line-width": 3,
+            },
+          });
+        });
+      }
+
+      initializeMap();
+    </script>
+  </body>
+</html>

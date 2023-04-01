@@ -1,0 +1,58 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: A Template to provision Amazon Location Service resources for geojson-line-example
+Resources:
+  Map:
+    Type: AWS::Location::Map
+    Properties:
+      Configuration:
+        Style: VectorOpenDataStandardLight
+      Description: Map Resource created for geojson-line-example
+      MapName: geojson-line-example
+  IdentityPool:
+    Type: AWS::Cognito::IdentityPool
+    Properties:
+      AllowUnauthenticatedIdentities: True
+      IdentityPoolName: geojson-line-example
+
+  IdentityPoolRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Description: Role created for usage with Cognito for geojson-line-example
+      RoleName: geojson-line-example-unauth-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Federated: "cognito-identity.amazonaws.com"
+            Action:
+              - "sts:AssumeRoleWithWebIdentity"
+            Condition:
+              StringEquals:
+                "cognito-identity.amazonaws.com:aud": !Ref IdentityPool
+              "ForAnyValue:StringLike":
+                "cognito-identity.amazonaws.com:amr": unauthenticated
+      Policies:
+        - PolicyName: geojson-line-example-unauth-policy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "geo:GetMap*"
+                Resource: !GetAtt Map.Arn
+
+  IdentityPoolRoleMapping:
+    Type: AWS::Cognito::IdentityPoolRoleAttachment
+    Properties:
+      IdentityPoolId: !Ref IdentityPool
+      Roles:
+        unauthenticated: !GetAtt IdentityPoolRole.Arn
+
+Outputs:
+  IdentityPoolId:
+    Description: The Cognito Identity Pool ID to configure geojson-line-example
+    Value: !Ref IdentityPool
+  MapName:
+    Description: The map resource name to configure geojson-line-example
+    Value: !Ref Map

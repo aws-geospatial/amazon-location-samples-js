@@ -1,0 +1,85 @@
+<!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
+<!-- SPDX-License-Identifier: MIT-0 -->
+<html>
+  <head>
+    <link
+      href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+      }
+      #map {
+        height: 100vh;
+      }
+      .layer-control {
+        position: absolute;
+        background: #fff;
+        padding: 10px;
+        right: 10px;
+        top: 10px;
+        z-index: 10;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map" />
+    <!-- Layer control -->
+    <div class="layer-control">
+      <input
+        class="layer"
+        type="radio"
+        name="map-style"
+        value="map-style-change-example-1"
+        checked="checked"
+      />
+      <label for="light">Light</label>
+      <input
+        class="layer"
+        type="radio"
+        name="map-style"
+        value="map-style-change-example-2"
+      />
+      <label for="dark">Dark</label>
+    </div>
+    <script src="https://unpkg.com/maplibre-gl"></script>
+    <script src="https://unpkg.com/amazon-location-helpers"></script>
+    <script>
+      async function initializeMap() {
+        // Initialize the map
+        const map = await AmazonLocation.createMap(
+          {
+            // Cognito Identity Pool ID
+            identityPoolId: "<Identity Pool ID>",
+          },
+          {
+            container: "map",
+            // Initial center point
+            center: [-123.1187, 49.2819],
+            // Initial zoom level
+            zoom: 10,
+            // Amazon Location Service's Map Name
+            style: "map-style-change-example-1",
+            hash: true,
+          }
+        );
+
+        // Add navigation controls
+        map.addControl(new maplibregl.NavigationControl(), "top-left");
+
+        // Switch map styles
+        const mapStyles = document.querySelectorAll(".layer-control .layer");
+
+        for (const mapStyle of mapStyles) {
+          mapStyle.onclick = (style) => {
+            const styleName = style.target.value;
+            map.setStyle(styleName);
+          };
+        }
+      }
+
+      initializeMap();
+    </script>
+  </body>
+</html>
