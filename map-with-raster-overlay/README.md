@@ -16,7 +16,7 @@ Open `index.html` and use the CloudFormation stack outputs to enter your Cognito
 
 [Sign up for an OpenWeatherMap API Key](https://home.openweathermap.org/users/sign_up) and enter the key in `index.html`
 
-Pick the weather layer from the [OpenWeatherMap API Docs](https://openweathermap.org/api/weathermaps) you wish to display and enter it in `index.html`
+Pick the weather layer from the [OpenWeatherMap API Docs](https://openweathermap.org/api/weathermaps) you wish to display and enter it in `index.html`. For example `const openWeatherMapLayer = "temp_new"` to display temperature globally.
 ## Run
 
 Open `index.html` in your browser.
