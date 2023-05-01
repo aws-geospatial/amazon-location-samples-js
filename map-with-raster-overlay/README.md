@@ -6,7 +6,7 @@ This sample app shows you how to display a map with a raster layer on a webpage.
 
 Click the button below to create the necessary AWS resources for this sample app to run. It will open the AWS Management Console and initiate the CloudFormation template deployment process.
 
-[![Launch Stack](https://amazon-location-cloudformation-templates.s3.us-west-2.amazonaws.com/cfn-launch-stack-button.svg)](https://console.aws.amazon.com/cloudformation/home?#/stacks/quickcreate?stackName=simple-map-example&templateURL=https://amazon-location-cloudformation-templates.s3.us-west-2.amazonaws.com/samples/web-simple-map/template.yml)
+[![Launch Stack](https://amazon-location-cloudformation-templates.s3.us-west-2.amazonaws.com/cfn-launch-stack-button.svg)](https://console.aws.amazon.com/cloudformation/home?#/stacks/quickcreate?stackName=map-with-raster-overlay-example&templateURL=https://amazon-location-cloudformation-templates.s3.us-west-2.amazonaws.com/samples/web-raster-overlay/template.yml)
 
 Once the deployment process is complete, go to the `Outputs` section to get the Cognito Identity Pool ID.
 
@@ -16,14 +16,16 @@ Open `index.html` and use the CloudFormation stack outputs to enter your Cognito
 
 [Sign up for an OpenWeatherMap API Key](https://home.openweathermap.org/users/sign_up) and enter the key in `index.html`
 
-Pick the weather layer from the [OpenWeatherMap API Docs](https://openweathermap.org/api/weathermaps) you wish to display and enter it in `index.html`. For example `const openWeatherMapLayer = "temp_new"` to display temperature globally.
+Pick the weather layer from the [OpenWeatherMap API Docs](https://openweathermap.org/api/weathermaps) you wish to display and enter it in `index.html`. 
+
+For example `const openWeatherMapLayer = "temp_new"` to display temperature globally.
 ## Run
 
 Open `index.html` in your browser.
 
 ## Clean up
 
-If you would like to remove all of the resources created in this walkthrough, delete the CloudFormation stack called `simple-map-example`.
+If you would like to remove all of the resources created in this walkthrough, delete the CloudFormation stack called `map-with-raster-overlay-example`.
 
 ## Get help
 
