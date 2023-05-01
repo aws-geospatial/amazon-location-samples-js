@@ -1,49 +1,85 @@
-<!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
+<!-- Copyright Amazon.com,
+Inc. or its affiliates. All Rights Reserved. -->
 <!-- SPDX-License-Identifier: MIT-0 -->
 <html>
   <head>
-    <link
-      href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css"
-      rel="stylesheet"
-    />
-    <style>
-      body {
+    <link href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css"
+        rel="stylesheet"
+        />
+    <style>body {
         margin: 0;
       }
+
       #map {
         height: 100vh;
       }
-    </style>
+      .layer-control {
+        position: absolute;
+        background: #fff;
+        padding: 10px;
+        right: 10px;
+        top: 10px;
+        z-index: 10;
+      }
+  </style>
   </head>
   <body>
-    <div id="map" />
+    <div id="map"/>
     <script src="https://unpkg.com/maplibre-gl"></script>
     <script src="https://unpkg.com/amazon-location-helpers"></script>
     <script>
       async function initializeMap() {
-        // Initialize the map
-        const map = await AmazonLocation.createMap(
+      const openWeatherMapKey = "<OpenWeatherMap API Key"
+      const openWeatherMapLayer = "<Layer key from OpenWeatherMap maps 1.0"
+    // Initialize the map
+      const map=await AmazonLocation.createMap( {
+          // Cognito Identity Pool ID
+          identityPoolId: "<Identity Pool ID>",
+        },
           {
-            // Cognito Identity Pool ID
-            identityPoolId: "us-west-2:74eb0563-189b-492c-b723-c1ba5008e5cf",
-          },
-          {
-            container: "map",
-            // Initial center point
-            center: [-123.1187, 49.2819],
-            // Initial zoom level
-            zoom: 10,
-            // Amazon Location Service's Map name
-            style: "map-with-weather-overlay-example",
-            hash: true,
-          }
-        );
+          container: "map",
+          // Initial center point
+          center: [-123.1187, 49.2819],
+          // Initial zoom level
+          zoom: 10,
+          // Amazon Location Service's Map name
+          style: "map-with-weather-overlay-example",
+          hash: true,
+        }
+    
+      );
+    
+      map.on('load', function () {
+          map.addSource('openweathermap-data', {
+              'type': 'raster',
+              // use the tiles option to specify a WMS tile source URL
+              // https://maplibre.org/maplibre-style-spec/sources/
+              'tiles': [ 'https://tile.openweathermap.org/map/' + openWeatherMapLayer + '/{z}/{x}/{y}.png?appid=' + openWeatherMapKey
+              ],
+              'tileSize': 256
+            }
+    
+          );
+          map.addLayer( {
+    
+              'id': 'openweathermap-layer',
+              'type': 'raster',
+              'source': 'openweathermap-data',
+              'paint': {}
+            }
+    
+          );
+        }
+        
+    
+      );
 
-        // Add navigation controls
-        map.addControl(new maplibregl.NavigationControl(), "top-left");
-      }
-
-      initializeMap();
+      // Add navigation controls
+      map.addControl(new maplibregl.NavigationControl(), "top-left");
+      
+    }
+    
+    initializeMap();
     </script>
   </body>
 </html>
