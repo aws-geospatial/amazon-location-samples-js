@@ -10,7 +10,7 @@ Click the button below to create the necessary AWS resources for this sample app
 
 Once the deployment process is complete, go to the `Outputs` section to get the Cognito Identity Pool ID.
 
-## Configure
+## Configure 
 
 Open `index.html` and use the CloudFormation stack outputs to enter your Cognito Identity Pool ID.
 
