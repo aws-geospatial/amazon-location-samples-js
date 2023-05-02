@@ -23,7 +23,7 @@ For example `const openWeatherMapLayer = "temp_new"` to display temperature glob
 
 Open `index.html` in your browser.
 
-![Global Temperature Screenshot](https://amazon-location-cloudformation-templates.s3.us-west-2.amazonaws.com/samples/web-raster-overlay/map-with-raster-overlay.png)
+![Global Temperature Image](https://amazon-location-cloudformation-templates.s3.us-west-2.amazonaws.com/samples/web-raster-overlay/map-with-raster-overlay.png)
 ## Clean up
 
 If you would like to remove all of the resources created in this walkthrough, delete the CloudFormation stack called `map-with-raster-overlay-example`.
