@@ -23,16 +23,18 @@ Inc. or its affiliates. All Rights Reserved. -->
     <script src="https://unpkg.com/amazon-location-helpers"></script>
     <script>
       async function initializeMap() {
+        const openWeatherMapKey = "<OpenWeatherMap API Key>";
+        const openWeatherMapLayer = "<OpenWeatherMap Layer key>";
         // Initialize the map
         const map = await AmazonLocation.createMap(
           {
             // Cognito Identity Pool ID
-            identityPoolId: "us-west-2:22ec429f-9792-4cdb-8921-7df61daab78d",
+            identityPoolId: "<Identity Pool ID>",
           },
           {
             container: "map",
             // Initial center point
-            center: [-86.81120882261392, 33.51532106711009],
+            center: [-123.1187, 49.2819],
             // Initial zoom level
             zoom: 10,
             // Amazon Location Service's Map name
@@ -42,18 +44,22 @@ Inc. or its affiliates. All Rights Reserved. -->
         );
 
         map.on("load", function () {
-          map.addSource("weathermap-data", {
+          map.addSource("openweathermap-data", {
             type: "raster",
             // use the tiles option to specify a WMS tile source URL
             // https://maplibre.org/maplibre-style-spec/sources/
             tiles: [
-            'https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/ridge::BMX-N0Q-0/{z}/{x}/{y}.png'],
+              "https://tile.openweathermap.org/map/" +
+                openWeatherMapLayer +
+                "/{z}/{x}/{y}.png?appid=" +
+                openWeatherMapKey,
+            ],
             tileSize: 256,
           });
           map.addLayer({
-            id: "weathermap-layer",
+            id: "openweathermap-layer",
             type: "raster",
-            source: "weathermap-data",
+            source: "openweathermap-data",
             paint: {},
           });
         });

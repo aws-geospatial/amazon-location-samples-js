@@ -1,6 +1,6 @@
 # Display a raster layer on a webpage
 
-This sample app shows you how to display a map with a raster layer on a webpage. It uses Amazon Location Service's Maps as the base map provider, MapLibre GL JS as the map rendering library, and uses the Iowa Environmental Mesonet Radar Tiles APIs to display a raster layer of radar data.
+This sample app shows you how to display a map with a raster layer on a webpage. It uses Amazon Location Service's Maps as the base map provider, MapLibre GL JS as the map rendering library, and uses OpenWeatherMap map APIs to display a raster layer of weather data.
 
 ## Create resources
 
@@ -14,7 +14,11 @@ Once the deployment process is complete, go to the `Outputs` section to get the 
 
 Open `index.html` and use the CloudFormation stack outputs to enter your Cognito Identity Pool ID.
 
-The example defaults to Birmingham, Alabama and the `BMX` radar. You can change the radar site as well as view archived radar by changing the URL per the [IEM Docs](https://mesonet.agron.iastate.edu/GIS/ridge.phtml)
+[Sign up for an OpenWeatherMap API Key](https://home.openweathermap.org/users/sign_up) and enter the key in `index.html`
+
+Pick the weather layer from the [OpenWeatherMap API Docs](https://openweathermap.org/api/weathermaps) you wish to display and enter it in `index.html`. 
+
+For example `const openWeatherMapLayer = "temp_new"` to display temperature globally.
 ## Run
 
 Open `index.html` in your browser.
@@ -39,4 +43,5 @@ See [CONTRIBUTING](../CONTRIBUTING.md) for more information.
 See [CONTRIBUTING](../CONTRIBUTING.md#security-issue-notifications) for more information.
 
 ## Licensing
+
 This library is licensed under the MIT-0 License. See [LICENSE](../LICENSE).
