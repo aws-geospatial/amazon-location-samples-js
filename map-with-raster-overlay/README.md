@@ -1,6 +1,6 @@
 # Display a raster layer on a webpage
 
-This sample app shows you how to display a map with a raster layer on a webpage. It uses Amazon Location Service's Maps as the base map provider, MapLibre GL JS as the map rendering library, and uses OpenWeatherMap map APIs to display a raster layer of weather data.
+This sample app shows you how to display a map with a raster layer on a webpage. It uses Amazon Location Service's Maps as the base map provider, MapLibre GL JS as the map rendering library, and uses the Iowa Environmental Mesonet Map Tile APIs to display a raster layer of weather data.
 
 ## Create resources
 
