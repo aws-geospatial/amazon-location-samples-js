@@ -18,26 +18,28 @@
   <body>
     <div id="map" />
     <script src="https://unpkg.com/maplibre-gl"></script>
-    <script src="https://unpkg.com/amazon-location-helpers"></script>
+    <script src="AUTH URL TBD"></script>
     <script>
       async function initializeMap() {
+        const identityPoolId = "<Identity Pool ID>";
+        const mapName = "geojson-point-example";
+        const region = identityPoolId.split(":")[0];
+
+        // Create an authentication helper instance using credentials from Cognito
+        const authHelper = await amazonLocationAuthHelper.withIdentityPoolId(identityPoolId);
+
         // Initialize the map
-        const map = await AmazonLocation.createMap(
-          {
-            // Cognito Identity Pool ID
-            identityPoolId: "<Identity Pool ID>",
-          },
-          {
-            container: "map",
-            // Initial center point
-            center: [-123.12128, 49.281],
-            // Initial zoom level
-            zoom: 14,
-            // Amazon Location Service's Map name
-            style: "geojson-point-example",
-            hash: true,
-          }
-        );
+        const map = new maplibregl.Map({
+          container: "map",
+          // Initial map centerpoint
+          center: [-123.12128, 49.281],
+          // Initial zoom level
+          zoom: 14,
+          style: `https://maps.geo.${region}.amazonaws.com/maps/v0/maps/${mapName}/style-descriptor`,
+          hash: true,
+          // Provides options required to make requests to Amazon Location
+          ...authHelper.getMapAuthenticationOptions(),
+        });
 
         // Add navigation controls
         map.addControl(new maplibregl.NavigationControl(), "top-left");
