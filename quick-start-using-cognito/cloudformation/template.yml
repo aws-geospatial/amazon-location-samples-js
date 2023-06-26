@@ -1,0 +1,70 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: A Template to provision Amazon Location Service resources for quick-start-using-cognito-example
+Resources:
+  Map:
+    Type: AWS::Location::Map
+    Properties:
+      Configuration:
+        Style: VectorEsriTopographic
+      Description: Map Resource created for quick-start-using-cognito-example
+      MapName: quick-start-using-cognito-example
+  PlaceIndex:
+    Type: AWS::Location::PlaceIndex
+    Properties:
+      DataSource: Esri
+      Description: Place Index Resource created for quick-start-using-cognito-example
+      IndexName: quick-start-using-cognito-example
+  IdentityPool:
+    Type: AWS::Cognito::IdentityPool
+    Properties:
+      AllowUnauthenticatedIdentities: True
+      IdentityPoolName: quick-start-using-cognito-example
+
+  IdentityPoolRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Description: Role created for usage with Cognito for quick-start-using-cognito-example
+      RoleName: quick-start-using-cognito-example-unauth-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Federated: "cognito-identity.amazonaws.com"
+            Action:
+              - "sts:AssumeRoleWithWebIdentity"
+            Condition:
+              StringEquals:
+                "cognito-identity.amazonaws.com:aud": !Ref IdentityPool
+              "ForAnyValue:StringLike":
+                "cognito-identity.amazonaws.com:amr": unauthenticated
+      Policies:
+        - PolicyName: quick-start-using-cognito-example-unauth-policy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "geo:GetMap*"
+                  - "geo:SearchPlaceIndexForPosition"
+                Resource: 
+                  - !GetAtt Map.Arn
+                  - !GetAtt PlaceIndex.Arn
+
+  IdentityPoolRoleMapping:
+    Type: AWS::Cognito::IdentityPoolRoleAttachment
+    Properties:
+      IdentityPoolId: !Ref IdentityPool
+      Roles:
+        unauthenticated: !GetAtt IdentityPoolRole.Arn
+
+Outputs:
+  IdentityPoolId:
+    Description: The Cognito Identity Pool ID to configure the quick-start-using-cognito-example
+    Value: !Ref IdentityPool
+  MapName:
+    Description: The map resource name to configure the quick-start-using-cognito-example
+    Value: !Ref Map
+  PlaceIndexName:
+    Description: The place index resource name to configure the quick-start-using-cognito-example
+    Value: !Ref PlaceIndex
