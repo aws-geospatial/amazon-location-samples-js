@@ -1,6 +1,6 @@
 # Quick start web app authenticating with API keys
 
-This example is a simple page that displays displays an interactive map and uses search functionality. [MapLibre GL JS](https://maplibre.org/maplibre-gl-js-docs/api/) and [Amazon Location
+This example is a simple page that displays an interactive map and uses search functionality. [MapLibre GL JS](https://maplibre.org/maplibre-gl-js-docs/api/) and [Amazon Location
 Service](https://aws.amazon.com/location) are used to build the app. Authentication to this app is done using Amazon Location [API keys](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html).
 
 See the [quick start guide](https://docs.aws.amazon.com/location/latest/developerguide/getting-started.html) for a complete walkthrough of this example.
