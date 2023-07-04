@@ -1,11 +1,11 @@
 // AWS Resources
 // Cognito:
 const identityPoolId = "<Identity Pool ID>";
-const region = "<Region>";
 
 // Amazon Location Service:
 const mapName = "<Map Resource Name>";
 const placesName = "<Places Resource Name>";
+const region = "<Region>";
 
 // Initialize a map
 function initializeMap(authHelper) {
