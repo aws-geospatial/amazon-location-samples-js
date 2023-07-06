@@ -2,10 +2,7 @@
 <!-- SPDX-License-Identifier: MIT-0 -->
 <html>
   <head>
-    <link
-      href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css"
-      rel="stylesheet"
-    />
+    <link href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" rel="stylesheet" />
     <style>
       body {
         margin: 0;
@@ -18,26 +15,28 @@
   <body>
     <div id="map" />
     <script src="https://unpkg.com/maplibre-gl"></script>
-    <script src="https://unpkg.com/amazon-location-helpers"></script>
+    <script src="https://unpkg.com/@aws/amazon-location-utilities-auth-helper@1.x/dist/amazonLocationAuthHelper.js"></script>
     <script>
       async function initializeMap() {
+        const identityPoolId = "<Identity Pool ID>";
+        const mapName = "simple-map-example";
+        const region = identityPoolId.split(":")[0];
+
+        // Create an authentication helper instance using credentials from Cognito
+        const authHelper = await amazonLocationAuthHelper.withIdentityPoolId(identityPoolId);
+
         // Initialize the map
-        const map = await AmazonLocation.createMap(
-          {
-            // Cognito Identity Pool ID
-            identityPoolId: "<Identity Pool ID>",
-          },
-          {
-            container: "map",
-            // Initial center point
-            center: [-123.1187, 49.2819],
-            // Initial zoom level
-            zoom: 10,
-            // Amazon Location Service's Map name
-            style: "simple-map-example",
-            hash: true,
-          }
-        );
+        const map = new maplibregl.Map({
+          container: "map",
+          // Initial map centerpoint
+          center: [-123.1187, 49.2819],
+          // Initial zoom level
+          zoom: 10,
+          style: `https://maps.geo.${region}.amazonaws.com/maps/v0/maps/${mapName}/style-descriptor`,
+          hash: true,
+          // Provides options required to make requests to Amazon Location
+          ...authHelper.getMapAuthenticationOptions(),
+        });
 
         // Add navigation controls
         map.addControl(new maplibregl.NavigationControl(), "top-left");

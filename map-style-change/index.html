@@ -44,26 +44,28 @@
       <label for="dark">Dark</label>
     </div>
     <script src="https://unpkg.com/maplibre-gl"></script>
-    <script src="https://unpkg.com/amazon-location-helpers"></script>
+    <script src="https://unpkg.com/@aws/amazon-location-utilities-auth-helper@1.x/dist/amazonLocationAuthHelper.js"></script>
     <script>
       async function initializeMap() {
+        const identityPoolId = "<Identity Pool ID>";
+        const mapName = "map-style-change-example-1";
+        const region = identityPoolId.split(":")[0];
+
+        // Create an authentication helper instance using credentials from Cognito
+        const authHelper = await amazonLocationAuthHelper.withIdentityPoolId(identityPoolId);
+
         // Initialize the map
-        const map = await AmazonLocation.createMap(
-          {
-            // Cognito Identity Pool ID
-            identityPoolId: "<Identity Pool ID>",
-          },
-          {
-            container: "map",
-            // Initial center point
-            center: [-123.1187, 49.2819],
-            // Initial zoom level
-            zoom: 10,
-            // Amazon Location Service's Map Name
-            style: "map-style-change-example-1",
-            hash: true,
-          }
-        );
+        const map = new maplibregl.Map({
+          container: "map",
+          // Initial map centerpoint
+          center: [-123.1187, 49.2819],
+          // Initial zoom level
+          zoom: 10,
+          style: `https://maps.geo.${region}.amazonaws.com/maps/v0/maps/${mapName}/style-descriptor`,
+          hash: true,
+          // Provides options required to make requests to Amazon Location
+          ...authHelper.getMapAuthenticationOptions(),
+        });
 
         // Add navigation controls
         map.addControl(new maplibregl.NavigationControl(), "top-left");
@@ -74,7 +76,7 @@
         for (const mapStyle of mapStyles) {
           mapStyle.onclick = (style) => {
             const styleName = style.target.value;
-            map.setStyle(styleName);
+            map.setStyle(`https://maps.geo.${region}.amazonaws.com/maps/v0/maps/${styleName}/style-descriptor`);
           };
         }
       }
