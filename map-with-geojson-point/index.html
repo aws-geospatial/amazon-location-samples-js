@@ -1,118 +1,136 @@
 <!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
 <!-- SPDX-License-Identifier: MIT-0 -->
 <html>
-  <head>
-    <link
-      href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css"
-      rel="stylesheet"
-    />
-    <style>
-      body {
-        margin: 0;
-      }
-      #map {
-        height: 100vh;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="map" />
-    <script src="https://unpkg.com/maplibre-gl"></script>
-    <script src="https://unpkg.com/@aws/amazon-location-utilities-auth-helper@1.x/dist/amazonLocationAuthHelper.js"></script>
-    <script>
-      async function initializeMap() {
-        const identityPoolId = "<Identity Pool ID>";
-        const mapName = "geojson-point-example";
-        const region = identityPoolId.split(":")[0];
+      <head>
+            <link
+                  href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css"
+                  rel="stylesheet"
+            />
+            <style>
+                  body {
+                        margin: 0;
+                  }
+                  #map {
+                        height: 100vh;
+                  }
+            </style>
+      </head>
+      <body>
+            <div id="map" />
+            <script src="https://unpkg.com/maplibre-gl"></script>
+            <script src="https://unpkg.com/@aws/amazon-location-utilities-auth-helper@1.x/dist/amazonLocationAuthHelper.js"></script>
+            <script>
+                  async function initializeMap() {
+                        const identityPoolId = "<Identity Pool ID>";
+                        const mapName = "js-map-with-geojson-point";
+                        const region = identityPoolId.split(":")[0];
 
-        // Create an authentication helper instance using credentials from Cognito
-        const authHelper = await amazonLocationAuthHelper.withIdentityPoolId(identityPoolId);
+                        // Create an authentication helper instance using credentials from Cognito
+                        const authHelper =
+                              await amazonLocationAuthHelper.withIdentityPoolId(
+                                    identityPoolId
+                              );
 
-        // Initialize the map
-        const map = new maplibregl.Map({
-          container: "map",
-          // Initial map centerpoint
-          center: [-123.12128, 49.281],
-          // Initial zoom level
-          zoom: 14,
-          style: `https://maps.geo.${region}.amazonaws.com/maps/v0/maps/${mapName}/style-descriptor`,
-          hash: true,
-          // Provides options required to make requests to Amazon Location
-          ...authHelper.getMapAuthenticationOptions(),
-        });
+                        // Initialize the map
+                        const map = new maplibregl.Map({
+                              container: "map",
+                              // Initial map centerpoint
+                              center: [-123.12128, 49.281],
+                              // Initial zoom level
+                              zoom: 14,
+                              style: `https://maps.geo.${region}.amazonaws.com/maps/v0/maps/${mapName}/style-descriptor`,
+                              hash: true,
+                              // Provides options required to make requests to Amazon Location
+                              ...authHelper.getMapAuthenticationOptions(),
+                        });
 
-        // Add navigation controls
-        map.addControl(new maplibregl.NavigationControl(), "top-left");
+                        // Add navigation controls
+                        map.addControl(
+                              new maplibregl.NavigationControl(),
+                              "top-left"
+                        );
 
-        map.on("load", () => {
-          // Add a data source containing GeoJSON data.
-          map.addSource("amazon-lockers", {
-            type: "geojson",
-            data: {
-              type: "FeatureCollection",
-              features: [
-                {
-                  type: "Feature",
-                  geometry: {
-                    type: "Point",
-                    coordinates: [-123.13271, 49.2901],
-                  },
-                  properties: {
-                    title: "Amazon Hub Locker - Robson",
-                    address: "1675 Robson St, Vancouver, BC V6G 1C8, Canada",
-                  },
-                },
-                {
-                  type: "Feature",
-                  geometry: {
-                    type: "Point",
-                    coordinates: [-123.13428, 49.2807],
-                  },
-                  properties: {
-                    title: "Amazon Hub Locker - Bobtail",
-                    address: "1176 Burnaby St, Vancouver, BC V6E 1P1, Canada",
-                  },
-                },
-                {
-                  type: "Feature",
-                  geometry: {
-                    type: "Point",
-                    coordinates: [-123.12419, 49.28169],
-                  },
-                  properties: {
-                    title: "Amazon Hub Locker - Voltmeter",
-                    address: "900 Burrard St, Vancouver, BC V6Z 3G5, Canada",
-                  },
-                },
-                {
-                  type: "Feature",
-                  geometry: {
-                    type: "Point",
-                    coordinates: [-123.12858, 49.27838],
-                  },
-                  properties: {
-                    title: "Amazon Hub Locker - Asif",
-                    address: "904 Davie St, Vancouver, BC V6Z 1B8, Canada",
-                  },
-                },
-              ],
-            },
-          });
+                        map.on("load", () => {
+                              // Add a data source containing GeoJSON data.
+                              map.addSource("amazon-lockers", {
+                                    type: "geojson",
+                                    data: {
+                                          type: "FeatureCollection",
+                                          features: [
+                                                {
+                                                      type: "Feature",
+                                                      geometry: {
+                                                            type: "Point",
+                                                            coordinates: [
+                                                                  -123.13271,
+                                                                  49.2901,
+                                                            ],
+                                                      },
+                                                      properties: {
+                                                            title: "Amazon Hub Locker - Robson",
+                                                            address: "1675 Robson St, Vancouver, BC V6G 1C8, Canada",
+                                                      },
+                                                },
+                                                {
+                                                      type: "Feature",
+                                                      geometry: {
+                                                            type: "Point",
+                                                            coordinates: [
+                                                                  -123.13428,
+                                                                  49.2807,
+                                                            ],
+                                                      },
+                                                      properties: {
+                                                            title: "Amazon Hub Locker - Bobtail",
+                                                            address: "1176 Burnaby St, Vancouver, BC V6E 1P1, Canada",
+                                                      },
+                                                },
+                                                {
+                                                      type: "Feature",
+                                                      geometry: {
+                                                            type: "Point",
+                                                            coordinates: [
+                                                                  -123.12419,
+                                                                  49.28169,
+                                                            ],
+                                                      },
+                                                      properties: {
+                                                            title: "Amazon Hub Locker - Voltmeter",
+                                                            address: "900 Burrard St, Vancouver, BC V6Z 3G5, Canada",
+                                                      },
+                                                },
+                                                {
+                                                      type: "Feature",
+                                                      geometry: {
+                                                            type: "Point",
+                                                            coordinates: [
+                                                                  -123.12858,
+                                                                  49.27838,
+                                                            ],
+                                                      },
+                                                      properties: {
+                                                            title: "Amazon Hub Locker - Asif",
+                                                            address: "904 Davie St, Vancouver, BC V6Z 1B8, Canada",
+                                                      },
+                                                },
+                                          ],
+                                    },
+                              });
 
-          // Add a new layer to visualize the points.
-          map.addLayer({
-            id: "amazon-lockers",
-            type: "circle",
-            source: "amazon-lockers",
-            paint: {
-              "circle-radius": 8,
-              "circle-color": "#0080ff",
-            },
-          });
-        });
-      }
+                              // Add a new layer to visualize the points.
+                              map.addLayer({
+                                    id: "amazon-lockers",
+                                    type: "circle",
+                                    source: "amazon-lockers",
+                                    paint: {
+                                          "circle-radius": 8,
+                                          "circle-color": "#0080ff",
+                                    },
+                              });
+                        });
+                  }
 
-      initializeMap();
-    </script>
-  </body>
+                  initializeMap();
+            </script>
+      </body>
 </html>

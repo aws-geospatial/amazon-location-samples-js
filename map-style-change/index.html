@@ -1,87 +1,97 @@
 <!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
 <!-- SPDX-License-Identifier: MIT-0 -->
 <html>
-  <head>
-    <link
-      href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css"
-      rel="stylesheet"
-    />
-    <style>
-      body {
-        margin: 0;
-      }
-      #map {
-        height: 100vh;
-      }
-      .layer-control {
-        position: absolute;
-        background: #fff;
-        padding: 10px;
-        right: 10px;
-        top: 10px;
-        z-index: 10;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="map" />
-    <!-- Layer control -->
-    <div class="layer-control">
-      <input
-        class="layer"
-        type="radio"
-        name="map-style"
-        value="map-style-change-example-1"
-        checked="checked"
-      />
-      <label for="light">Light</label>
-      <input
-        class="layer"
-        type="radio"
-        name="map-style"
-        value="map-style-change-example-2"
-      />
-      <label for="dark">Dark</label>
-    </div>
-    <script src="https://unpkg.com/maplibre-gl"></script>
-    <script src="https://unpkg.com/@aws/amazon-location-utilities-auth-helper@1.x/dist/amazonLocationAuthHelper.js"></script>
-    <script>
-      async function initializeMap() {
-        const identityPoolId = "<Identity Pool ID>";
-        const mapName = "map-style-change-example-1";
-        const region = identityPoolId.split(":")[0];
+      <head>
+            <link
+                  href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css"
+                  rel="stylesheet"
+            />
+            <style>
+                  body {
+                        margin: 0;
+                  }
+                  #map {
+                        height: 100vh;
+                  }
+                  .layer-control {
+                        position: absolute;
+                        background: #fff;
+                        padding: 10px;
+                        right: 10px;
+                        top: 10px;
+                        z-index: 10;
+                  }
+            </style>
+      </head>
+      <body>
+            <div id="map" />
+            <!-- Layer control -->
+            <div class="layer-control">
+                  <input
+                        class="layer"
+                        type="radio"
+                        name="map-style"
+                        value="js-map-style-change-1"
+                        checked="checked"
+                  />
+                  <label for="light">Light</label>
+                  <input
+                        class="layer"
+                        type="radio"
+                        name="map-style"
+                        value="js-map-style-change-2"
+                  />
+                  <label for="dark">Dark</label>
+            </div>
+            <script src="https://unpkg.com/maplibre-gl"></script>
+            <script src="https://unpkg.com/@aws/amazon-location-utilities-auth-helper@1.x/dist/amazonLocationAuthHelper.js"></script>
+            <script>
+                  async function initializeMap() {
+                        const identityPoolId = "<Identity Pool ID>";
+                        const mapName = "js-map-style-change-1";
+                        const region = identityPoolId.split(":")[0];
 
-        // Create an authentication helper instance using credentials from Cognito
-        const authHelper = await amazonLocationAuthHelper.withIdentityPoolId(identityPoolId);
+                        // Create an authentication helper instance using credentials from Cognito
+                        const authHelper =
+                              await amazonLocationAuthHelper.withIdentityPoolId(
+                                    identityPoolId
+                              );
 
-        // Initialize the map
-        const map = new maplibregl.Map({
-          container: "map",
-          // Initial map centerpoint
-          center: [-123.1187, 49.2819],
-          // Initial zoom level
-          zoom: 10,
-          style: `https://maps.geo.${region}.amazonaws.com/maps/v0/maps/${mapName}/style-descriptor`,
-          hash: true,
-          // Provides options required to make requests to Amazon Location
-          ...authHelper.getMapAuthenticationOptions(),
-        });
+                        // Initialize the map
+                        const map = new maplibregl.Map({
+                              container: "map",
+                              // Initial map centerpoint
+                              center: [-123.1187, 49.2819],
+                              // Initial zoom level
+                              zoom: 10,
+                              style: `https://maps.geo.${region}.amazonaws.com/maps/v0/maps/${mapName}/style-descriptor`,
+                              hash: true,
+                              // Provides options required to make requests to Amazon Location
+                              ...authHelper.getMapAuthenticationOptions(),
+                        });
 
-        // Add navigation controls
-        map.addControl(new maplibregl.NavigationControl(), "top-left");
+                        // Add navigation controls
+                        map.addControl(
+                              new maplibregl.NavigationControl(),
+                              "top-left"
+                        );
 
-        // Switch map styles
-        const mapStyles = document.querySelectorAll(".layer-control .layer");
+                        // Switch map styles
+                        const mapStyles = document.querySelectorAll(
+                              ".layer-control .layer"
+                        );
 
-        for (const mapStyle of mapStyles) {
-          mapStyle.onclick = (style) => {
-            const styleName = style.target.value;
-            map.setStyle(`https://maps.geo.${region}.amazonaws.com/maps/v0/maps/${styleName}/style-descriptor`);
-          };
-        }
-      }
+                        for (const mapStyle of mapStyles) {
+                              mapStyle.onclick = (style) => {
+                                    const styleName = style.target.value;
+                                    map.setStyle(
+                                          `https://maps.geo.${region}.amazonaws.com/maps/v0/maps/${styleName}/style-descriptor`
+                                    );
+                              };
+                        }
+                  }
 
-      initializeMap();
-    </script>
-  </body>
+                  initializeMap();
+            </script>
+      </body>
 </html>

@@ -1,48 +1,57 @@
 <!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
 <!-- SPDX-License-Identifier: MIT-0 -->
 <html>
-  <head>
-    <link href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" rel="stylesheet" />
-    <style>
-      body {
-        margin: 0;
-      }
-      #map {
-        height: 100vh;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="map" />
-    <script src="https://unpkg.com/maplibre-gl"></script>
-    <script src="https://unpkg.com/@aws/amazon-location-utilities-auth-helper@1.x/dist/amazonLocationAuthHelper.js"></script>
-    <script>
-      async function initializeMap() {
-        const identityPoolId = "<Identity Pool ID>";
-        const mapName = "simple-map-example";
-        const region = identityPoolId.split(":")[0];
+      <head>
+            <link
+                  href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css"
+                  rel="stylesheet"
+            />
+            <style>
+                  body {
+                        margin: 0;
+                  }
+                  #map {
+                        height: 100vh;
+                  }
+            </style>
+      </head>
+      <body>
+            <div id="map" />
+            <script src="https://unpkg.com/maplibre-gl"></script>
+            <script src="https://unpkg.com/@aws/amazon-location-utilities-auth-helper@1.x/dist/amazonLocationAuthHelper.js"></script>
+            <script>
+                  async function initializeMap() {
+                        const identityPoolId = "<Identity Pool ID>";
+                        const mapName = "js-simple-map";
+                        const region = identityPoolId.split(":")[0];
 
-        // Create an authentication helper instance using credentials from Cognito
-        const authHelper = await amazonLocationAuthHelper.withIdentityPoolId(identityPoolId);
+                        // Create an authentication helper instance using credentials from Cognito
+                        const authHelper =
+                              await amazonLocationAuthHelper.withIdentityPoolId(
+                                    identityPoolId
+                              );
 
-        // Initialize the map
-        const map = new maplibregl.Map({
-          container: "map",
-          // Initial map centerpoint
-          center: [-123.1187, 49.2819],
-          // Initial zoom level
-          zoom: 10,
-          style: `https://maps.geo.${region}.amazonaws.com/maps/v0/maps/${mapName}/style-descriptor`,
-          hash: true,
-          // Provides options required to make requests to Amazon Location
-          ...authHelper.getMapAuthenticationOptions(),
-        });
+                        // Initialize the map
+                        const map = new maplibregl.Map({
+                              container: "map",
+                              // Initial map centerpoint
+                              center: [-123.1187, 49.2819],
+                              // Initial zoom level
+                              zoom: 10,
+                              style: `https://maps.geo.${region}.amazonaws.com/maps/v0/maps/${mapName}/style-descriptor`,
+                              hash: true,
+                              // Provides options required to make requests to Amazon Location
+                              ...authHelper.getMapAuthenticationOptions(),
+                        });
 
-        // Add navigation controls
-        map.addControl(new maplibregl.NavigationControl(), "top-left");
-      }
+                        // Add navigation controls
+                        map.addControl(
+                              new maplibregl.NavigationControl(),
+                              "top-left"
+                        );
+                  }
 
-      initializeMap();
-    </script>
-  </body>
+                  initializeMap();
+            </script>
+      </body>
 </html>
