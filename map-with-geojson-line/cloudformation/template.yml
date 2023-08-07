@@ -1,58 +1,58 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: A Template to provision Amazon Location Service resources for js-map-with-geojson-line
 Resources:
-      Map:
-            Type: AWS::Location::Map
-            Properties:
-                  Configuration:
-                        Style: VectorOpenDataStandardLight
-                  Description: Map Resource created for js-map-with-geojson-line
-                  MapName: js-map-with-geojson-line
-      IdentityPool:
-            Type: AWS::Cognito::IdentityPool
-            Properties:
-                  AllowUnauthenticatedIdentities: True
-                  IdentityPoolName: js-map-with-geojson-line
+  Map:
+    Type: AWS::Location::Map
+    Properties:
+      Configuration:
+        Style: VectorOpenDataStandardLight
+      Description: Map Resource created for js-map-with-geojson-line
+      MapName: js-map-with-geojson-line
+  IdentityPool:
+    Type: AWS::Cognito::IdentityPool
+    Properties:
+      AllowUnauthenticatedIdentities: True
+      IdentityPoolName: js-map-with-geojson-line
 
-      IdentityPoolRole:
-            Type: AWS::IAM::Role
-            Properties:
-                  Description: Role created for usage with Cognito for js-map-with-geojson-line
-                  RoleName: js-map-with-geojson-line-unauth-role
-                  AssumeRolePolicyDocument:
-                        Version: "2012-10-17"
-                        Statement:
-                              - Effect: "Allow"
-                                Principal:
-                                      Federated: "cognito-identity.amazonaws.com"
-                                Action:
-                                      - "sts:AssumeRoleWithWebIdentity"
-                                Condition:
-                                      StringEquals:
-                                            "cognito-identity.amazonaws.com:aud": !Ref IdentityPool
-                                      "ForAnyValue:StringLike":
-                                            "cognito-identity.amazonaws.com:amr": unauthenticated
-                  Policies:
-                        - PolicyName: js-map-with-geojson-line-unauth-policy
-                          PolicyDocument:
-                                Version: 2012-10-17
-                                Statement:
-                                      - Effect: Allow
-                                        Action:
-                                              - "geo:GetMap*"
-                                        Resource: !GetAtt Map.Arn
+  IdentityPoolRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Description: Role created for usage with Cognito for js-map-with-geojson-line
+      RoleName: js-map-with-geojson-line-unauth-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Federated: "cognito-identity.amazonaws.com"
+            Action:
+              - "sts:AssumeRoleWithWebIdentity"
+            Condition:
+              StringEquals:
+                "cognito-identity.amazonaws.com:aud": !Ref IdentityPool
+              "ForAnyValue:StringLike":
+                "cognito-identity.amazonaws.com:amr": unauthenticated
+      Policies:
+        - PolicyName: js-map-with-geojson-line-unauth-policy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "geo:GetMap*"
+                Resource: !GetAtt Map.Arn
 
-      IdentityPoolRoleMapping:
-            Type: AWS::Cognito::IdentityPoolRoleAttachment
-            Properties:
-                  IdentityPoolId: !Ref IdentityPool
-                  Roles:
-                        unauthenticated: !GetAtt IdentityPoolRole.Arn
+  IdentityPoolRoleMapping:
+    Type: AWS::Cognito::IdentityPoolRoleAttachment
+    Properties:
+      IdentityPoolId: !Ref IdentityPool
+      Roles:
+        unauthenticated: !GetAtt IdentityPoolRole.Arn
 
 Outputs:
-      IdentityPoolId:
-            Description: The Cognito Identity Pool ID to configure js-map-with-geojson-line
-            Value: !Ref IdentityPool
-      MapName:
-            Description: The map resource name to configure js-map-with-geojson-line
-            Value: !Ref Map
+  IdentityPoolId:
+    Description: The Cognito Identity Pool ID to configure js-map-with-geojson-line
+    Value: !Ref IdentityPool
+  MapName:
+    Description: The map resource name to configure js-map-with-geojson-line
+    Value: !Ref Map

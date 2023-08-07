@@ -1,70 +1,70 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: A Template to provision Amazon Location Service resources for js-quick-start-using-cognito
 Resources:
-      Map:
-            Type: AWS::Location::Map
-            Properties:
-                  Configuration:
-                        Style: VectorEsriTopographic
-                  Description: Map Resource created for js-quick-start-using-cognito
-                  MapName: js-quick-start-using-cognito
-      PlaceIndex:
-            Type: AWS::Location::PlaceIndex
-            Properties:
-                  DataSource: Esri
-                  Description: Place Index Resource created for js-quick-start-using-cognito
-                  IndexName: js-quick-start-using-cognito
-      IdentityPool:
-            Type: AWS::Cognito::IdentityPool
-            Properties:
-                  AllowUnauthenticatedIdentities: True
-                  IdentityPoolName: js-quick-start-using-cognito
+  Map:
+    Type: AWS::Location::Map
+    Properties:
+      Configuration:
+        Style: VectorEsriTopographic
+      Description: Map Resource created for js-quick-start-using-cognito
+      MapName: js-quick-start-using-cognito
+  PlaceIndex:
+    Type: AWS::Location::PlaceIndex
+    Properties:
+      DataSource: Esri
+      Description: Place Index Resource created for js-quick-start-using-cognito
+      IndexName: js-quick-start-using-cognito
+  IdentityPool:
+    Type: AWS::Cognito::IdentityPool
+    Properties:
+      AllowUnauthenticatedIdentities: True
+      IdentityPoolName: js-quick-start-using-cognito
 
-      IdentityPoolRole:
-            Type: AWS::IAM::Role
-            Properties:
-                  Description: Role created for usage with Cognito for js-quick-start-using-cognito
-                  RoleName: js-quick-start-using-cognito-unauth-role
-                  AssumeRolePolicyDocument:
-                        Version: "2012-10-17"
-                        Statement:
-                              - Effect: "Allow"
-                                Principal:
-                                      Federated: "cognito-identity.amazonaws.com"
-                                Action:
-                                      - "sts:AssumeRoleWithWebIdentity"
-                                Condition:
-                                      StringEquals:
-                                            "cognito-identity.amazonaws.com:aud": !Ref IdentityPool
-                                      "ForAnyValue:StringLike":
-                                            "cognito-identity.amazonaws.com:amr": unauthenticated
-                  Policies:
-                        - PolicyName: js-quick-start-using-cognito-unauth-policy
-                          PolicyDocument:
-                                Version: 2012-10-17
-                                Statement:
-                                      - Effect: Allow
-                                        Action:
-                                              - "geo:GetMap*"
-                                              - "geo:SearchPlaceIndexForPosition"
-                                        Resource:
-                                              - !GetAtt Map.Arn
-                                              - !GetAtt PlaceIndex.Arn
+  IdentityPoolRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Description: Role created for usage with Cognito for js-quick-start-using-cognito
+      RoleName: js-quick-start-using-cognito-unauth-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Federated: "cognito-identity.amazonaws.com"
+            Action:
+              - "sts:AssumeRoleWithWebIdentity"
+            Condition:
+              StringEquals:
+                "cognito-identity.amazonaws.com:aud": !Ref IdentityPool
+              "ForAnyValue:StringLike":
+                "cognito-identity.amazonaws.com:amr": unauthenticated
+      Policies:
+        - PolicyName: js-quick-start-using-cognito-unauth-policy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "geo:GetMap*"
+                  - "geo:SearchPlaceIndexForPosition"
+                Resource:
+                  - !GetAtt Map.Arn
+                  - !GetAtt PlaceIndex.Arn
 
-      IdentityPoolRoleMapping:
-            Type: AWS::Cognito::IdentityPoolRoleAttachment
-            Properties:
-                  IdentityPoolId: !Ref IdentityPool
-                  Roles:
-                        unauthenticated: !GetAtt IdentityPoolRole.Arn
+  IdentityPoolRoleMapping:
+    Type: AWS::Cognito::IdentityPoolRoleAttachment
+    Properties:
+      IdentityPoolId: !Ref IdentityPool
+      Roles:
+        unauthenticated: !GetAtt IdentityPoolRole.Arn
 
 Outputs:
-      IdentityPoolId:
-            Description: The Cognito Identity Pool ID to configure the js-quick-start-using-cognito
-            Value: !Ref IdentityPool
-      MapName:
-            Description: The map resource name to configure the js-quick-start-using-cognito
-            Value: !Ref Map
-      PlaceIndexName:
-            Description: The place index resource name to configure the js-quick-start-using-cognito
-            Value: !Ref PlaceIndex
+  IdentityPoolId:
+    Description: The Cognito Identity Pool ID to configure the js-quick-start-using-cognito
+    Value: !Ref IdentityPool
+  MapName:
+    Description: The map resource name to configure the js-quick-start-using-cognito
+    Value: !Ref Map
+  PlaceIndexName:
+    Description: The place index resource name to configure the js-quick-start-using-cognito
+    Value: !Ref PlaceIndex
