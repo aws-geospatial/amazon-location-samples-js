@@ -1,88 +1,94 @@
 <!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
 <!-- SPDX-License-Identifier: MIT-0 -->
 <html>
-  <head>
-    <link
-      href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css"
-      rel="stylesheet"
-    />
-    <style>
-      body {
-        margin: 0;
-      }
-      #map {
-        height: 100vh;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="map" />
-    <script src="https://unpkg.com/maplibre-gl"></script>
-    <script src="https://unpkg.com/@aws/amazon-location-utilities-auth-helper@1.x/dist/amazonLocationAuthHelper.js"></script>
-    <script>
-      async function initializeMap() {
-        const identityPoolId = "<Identity Pool ID>";
-        const mapName = "geojson-line-example";
-        const region = identityPoolId.split(":")[0];
+      <head>
+            <link
+                  href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css"
+                  rel="stylesheet"
+            />
+            <style>
+                  body {
+                        margin: 0;
+                  }
+                  #map {
+                        height: 100vh;
+                  }
+            </style>
+      </head>
+      <body>
+            <div id="map" />
+            <script src="https://unpkg.com/maplibre-gl"></script>
+            <script src="https://unpkg.com/@aws/amazon-location-utilities-auth-helper@1.x/dist/amazonLocationAuthHelper.js"></script>
+            <script>
+                  async function initializeMap() {
+                        const identityPoolId = "<Identity Pool ID>";
+                        const mapName = "js-map-with-geojson-line";
+                        const region = identityPoolId.split(":")[0];
 
-        // Create an authentication helper instance using credentials from Cognito
-        const authHelper = await amazonLocationAuthHelper.withIdentityPoolId(identityPoolId);
+                        // Create an authentication helper instance using credentials from Cognito
+                        const authHelper =
+                              await amazonLocationAuthHelper.withIdentityPoolId(
+                                    identityPoolId
+                              );
 
-        // Initialize the map
-        const map = new maplibregl.Map({
-          container: "map",
-          // Initial map centerpoint
-          center: [-123.12128, 49.281],
-          // Initial zoom level
-          zoom: 14,
-          style: `https://maps.geo.${region}.amazonaws.com/maps/v0/maps/${mapName}/style-descriptor`,
-          hash: true,
-          // Provides options required to make requests to Amazon Location
-          ...authHelper.getMapAuthenticationOptions(),
-        });
+                        // Initialize the map
+                        const map = new maplibregl.Map({
+                              container: "map",
+                              // Initial map centerpoint
+                              center: [-123.12128, 49.281],
+                              // Initial zoom level
+                              zoom: 14,
+                              style: `https://maps.geo.${region}.amazonaws.com/maps/v0/maps/${mapName}/style-descriptor`,
+                              hash: true,
+                              // Provides options required to make requests to Amazon Location
+                              ...authHelper.getMapAuthenticationOptions(),
+                        });
 
-        // Add navigation controls
-        map.addControl(new maplibregl.NavigationControl(), "top-left");
+                        // Add navigation controls
+                        map.addControl(
+                              new maplibregl.NavigationControl(),
+                              "top-left"
+                        );
 
-        map.on("load", () => {
-          // Add a data source containing GeoJSON data.
-          map.addSource("route", {
-            type: "geojson",
-            data: {
-              type: "Feature",
-              geometry: {
-                type: "LineString",
-                coordinates: [
-                  [-123.12882, 49.27676],
-                  [-123.11914, 49.28314],
-                  [-123.1231, 49.2857],
-                  [-123.12598, 49.28388],
-                  [-123.12965, 49.28635],
-                  [-123.13597, 49.28208],
-                  [-123.14136, 49.28552],
-                ],
-              },
-            },
-          });
+                        map.on("load", () => {
+                              // Add a data source containing GeoJSON data.
+                              map.addSource("route", {
+                                    type: "geojson",
+                                    data: {
+                                          type: "Feature",
+                                          geometry: {
+                                                type: "LineString",
+                                                coordinates: [
+                                                      [-123.12882, 49.27676],
+                                                      [-123.11914, 49.28314],
+                                                      [-123.1231, 49.2857],
+                                                      [-123.12598, 49.28388],
+                                                      [-123.12965, 49.28635],
+                                                      [-123.13597, 49.28208],
+                                                      [-123.14136, 49.28552],
+                                                ],
+                                          },
+                                    },
+                              });
 
-          // Add a new layer to visualize the line.
-          map.addLayer({
-            id: "route",
-            type: "line",
-            source: "route",
-            layout: {
-              "line-join": "round",
-              "line-cap": "round",
-            },
-            paint: {
-              "line-color": "#00b0ff",
-              "line-width": 8,
-            },
-          });
-        });
-      }
+                              // Add a new layer to visualize the line.
+                              map.addLayer({
+                                    id: "route",
+                                    type: "line",
+                                    source: "route",
+                                    layout: {
+                                          "line-join": "round",
+                                          "line-cap": "round",
+                                    },
+                                    paint: {
+                                          "line-color": "#00b0ff",
+                                          "line-width": 8,
+                                    },
+                              });
+                        });
+                  }
 
-      initializeMap();
-    </script>
-  </body>
+                  initializeMap();
+            </script>
+      </body>
 </html>

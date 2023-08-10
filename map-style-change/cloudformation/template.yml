@@ -1,20 +1,20 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: A Template to provision Amazon Location Service resources for map-style-change-example
+Description: A Template to provision Amazon Location Service resources for js-map-style-change
 Resources:
   MapLight:
     Type: AWS::Location::Map
     Properties:
       Configuration:
         Style: VectorOpenDataStandardLight
-      Description: Map Resource created for map-style-change-example
-      MapName: map-style-change-example-1
+      Description: Map Resource created for js-map-style-change
+      MapName: js-map-style-change-1
   MapDark:
     Type: AWS::Location::Map
     Properties:
       Configuration:
         Style: VectorOpenDataStandardDark
-      Description: Map Resource created for map-style-change-example
-      MapName: map-style-change-example-2
+      Description: Map Resource created for js-map-style-change
+      MapName: js-map-style-change-2
   IdentityPool:
     Type: AWS::Cognito::IdentityPool
     Properties:
@@ -24,7 +24,7 @@ Resources:
   IdentityPoolRole:
     Type: AWS::IAM::Role
     Properties:
-      Description: Role created for usage with Cognito for map-style-change-example
+      Description: Role created for usage with Cognito for js-map-style-change
       RoleName: sample-app-6-unauth-role
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
@@ -62,11 +62,11 @@ Resources:
 
 Outputs:
   IdentityPoolId:
-    Description: The Cognito Identity Pool ID to configure the map-style-change-example
+    Description: The Cognito Identity Pool ID to configure the js-map-style-change
     Value: !Ref IdentityPool
   MapLightName:
-    Description: The map resource name to configure the map-style-change-example
+    Description: The map resource name to configure the js-map-style-change
     Value: !Ref MapLight
   MapDarkName:
-    Description: The map resource name to configure the map-style-change-example
+    Description: The map resource name to configure the js-map-style-change
     Value: !Ref MapDark

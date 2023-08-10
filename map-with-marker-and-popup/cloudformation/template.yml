@@ -1,24 +1,24 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: A Template to provision Amazon Location Service resources for marker-with-popup-example
+Description: A Template to provision Amazon Location Service resources for js-map-with-marker-and-popup
 Resources:
   Map:
     Type: AWS::Location::Map
     Properties:
       Configuration:
         Style: VectorOpenDataStandardLight
-      Description: Map Resource created for marker-with-popup-example
-      MapName: marker-with-popup-example
+      Description: Map Resource created for js-map-with-marker-and-popup
+      MapName: js-map-with-marker-and-popup
   IdentityPool:
     Type: AWS::Cognito::IdentityPool
     Properties:
       AllowUnauthenticatedIdentities: True
-      IdentityPoolName: marker-with-popup-example
+      IdentityPoolName: js-map-with-marker-and-popup
 
   IdentityPoolRole:
     Type: AWS::IAM::Role
     Properties:
-      Description: Role created for usage with Cognito for marker-with-popup-example
-      RoleName: marker-with-popup-example-unauth-role
+      Description: Role created for usage with Cognito for js-map-with-marker-and-popup
+      RoleName: js-map-with-marker-and-popup-unauth-role
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -33,7 +33,7 @@ Resources:
               "ForAnyValue:StringLike":
                 "cognito-identity.amazonaws.com:amr": unauthenticated
       Policies:
-        - PolicyName: marker-with-popup-example-unauth-policy
+        - PolicyName: js-map-with-marker-and-popup-unauth-policy
           PolicyDocument:
             Version: 2012-10-17
             Statement:
@@ -51,8 +51,8 @@ Resources:
 
 Outputs:
   IdentityPoolId:
-    Description: The Cognito Identity Pool ID to configure the marker-with-popup-example
+    Description: The Cognito Identity Pool ID to configure the js-map-with-marker-and-popup
     Value: !Ref IdentityPool
   MapName:
-    Description: The map resource name to configure the marker-with-popup-example
+    Description: The map resource name to configure the js-map-with-marker-and-popup
     Value: !Ref Map

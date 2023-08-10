@@ -1,24 +1,24 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: A Template to provision Amazon Location Service resources for simple-map-example
+Description: A Template to provision Amazon Location Service resources for js-simple-map
 Resources:
   Map:
     Type: AWS::Location::Map
     Properties:
       Configuration:
         Style: VectorOpenDataStandardLight
-      Description: Map Resource created for simple-map-example
-      MapName: simple-map-example
+      Description: Map Resource created for js-simple-map
+      MapName: js-simple-map
   IdentityPool:
     Type: AWS::Cognito::IdentityPool
     Properties:
       AllowUnauthenticatedIdentities: True
-      IdentityPoolName: simple-map-example
+      IdentityPoolName: js-simple-map
 
   IdentityPoolRole:
     Type: AWS::IAM::Role
     Properties:
-      Description: Role created for usage with Cognito for simple-map-example
-      RoleName: simple-map-example-unauth-role
+      Description: Role created for usage with Cognito for js-simple-map
+      RoleName: js-simple-map-unauth-role
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -33,7 +33,7 @@ Resources:
               "ForAnyValue:StringLike":
                 "cognito-identity.amazonaws.com:amr": unauthenticated
       Policies:
-        - PolicyName: simple-map-example-unauth-policy
+        - PolicyName: js-simple-map-unauth-policy
           PolicyDocument:
             Version: 2012-10-17
             Statement:
@@ -51,8 +51,8 @@ Resources:
 
 Outputs:
   IdentityPoolId:
-    Description: The Cognito Identity Pool ID to configure the simple-map-example
+    Description: The Cognito Identity Pool ID to configure the js-simple-map
     Value: !Ref IdentityPool
   MapName:
-    Description: The map resource name to configure the simple-map-example
+    Description: The map resource name to configure the js-simple-map
     Value: !Ref Map
