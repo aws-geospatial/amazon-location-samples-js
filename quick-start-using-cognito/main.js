@@ -4,8 +4,8 @@ const identityPoolId = "<Identity Pool ID>";
 
 // Amazon Location Service:
 const mapName = "js-quick-start-using-cognito";
-const placesName = "<Places Resource Name>";
-const region = "<Region>";
+const placesName = "js-quick-start-using-cognito";
+const region = identityPoolId.split(":")[0];
 
 // Initialize a map
 function initializeMap(authHelper) {
