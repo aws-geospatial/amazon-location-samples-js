@@ -3,8 +3,6 @@
 const identityPoolId = "<Identity Pool ID>";
 
 // Amazon Location Service:
-const mapName = "js-quick-start-using-cognito";
-const placesName = "js-quick-start-using-cognito";
 const region = identityPoolId.split(":")[0];
 
 // Initialize a map
@@ -14,7 +12,7 @@ function initializeMap(authHelper) {
             container: "map", // HTML element ID of map element
             center: [-77.03674, 38.891602], // Initial map centerpoint
             zoom: 16, // Initial map zoom
-            style: `https://maps.geo.${region}.amazonaws.com/maps/v0/maps/${mapName}/style-descriptor`, // Defines the appearance of the map
+            style: `https://maps.geo.${region}.amazonaws.com/v2/styles/Standard/descriptor`, // Defines the appearance of the map
             ...authHelper.getMapAuthenticationOptions(), // Provides options required to make requests to Amazon Location
       });
 
@@ -32,8 +30,9 @@ async function main() {
 
       // Initialize map and Amazon Location SDK client
       const map = await initializeMap(authHelper);
-      const client = new amazonLocationClient.LocationClient({
+      const client = new amazonLocationClient.places.GeoPlacesClient({
             region,
+            endpoint: `https://places.geo.${region}.amazonaws.com/v2`,
             ...authHelper.getLocationClientConfig(), // Provides configuration required to make requests to Amazon Location
       });
 
@@ -53,18 +52,14 @@ async function main() {
                   .addTo(map);
 
             // Set up parameters for search call
-            let params = {
-                  IndexName: placesName,
-                  Position: [e.lngLat.lng, e.lngLat.lat],
+            const params = {
+                  QueryPosition: [e.lngLat.lng, e.lngLat.lat],
                   Language: "en",
                   MaxResults: "5",
             };
 
             // Set up command to search for results around clicked point
-            const command =
-                  new amazonLocationClient.SearchPlaceIndexForPositionCommand(
-                        params
-                  );
+            const command = new amazonLocationClient.places.ReverseGeocodeCommand(params);
 
             try {
                   // Make request to search for results around clicked point
