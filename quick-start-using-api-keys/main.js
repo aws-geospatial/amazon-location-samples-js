@@ -1,8 +1,6 @@
 // Amazon Location Service:
-const apiKey = "<API Key>";
-const mapName = "<Map Resource Name>";
-const placesName = "<Places Resource Name>";
-const region = "<Region>";
+const apiKey = "<YOUR_AWS_API_KEY>";
+const region = "<YOUR_AWS_REGION>";
 
 // Initialize a map
 async function initializeMap() {
@@ -11,7 +9,7 @@ async function initializeMap() {
     container: "map", // HTML element ID of map element
     center: [-77.03674, 38.891602], // Initial map centerpoint
     zoom: 16, // Initial map zoom
-    style: `https://maps.geo.${region}.amazonaws.com/maps/v0/maps/${mapName}/style-descriptor?key=${apiKey}`, // Defines the appearance of the map and authenticates using an API key
+    style: `https://maps.geo.${region}.amazonaws.com/v2/styles/Standard/descriptor?key=${apiKey}`, // Defines the appearance of the map and authenticates using an API key
   });
 
   // Add navigation control to the top left of the map
@@ -24,10 +22,11 @@ async function main() {
   // Create an authentication helper instance using an API key
   const authHelper = await amazonLocationAuthHelper.withAPIKey(apiKey);
 
-  // Initialize map and Amazon Location SDK client
+  // Initialize map and GeoPlaces client from Amazon Location SDK
   const map = await initializeMap();
-  const client = new amazonLocationClient.LocationClient({
-    region,
+  const client = new amazonLocationClient.places.GeoPlacesClient({
+    region: region,
+    endpoint: `https://places.geo.${region}.amazonaws.com/v2`,
     ...authHelper.getLocationClientConfig(), // Provides configuration required to make requests to Amazon Location
   });
 
@@ -45,15 +44,14 @@ async function main() {
     marker = new maplibregl.Marker().setLngLat([e.lngLat.lng, e.lngLat.lat]).addTo(map);
 
     // Set up parameters for search call
-    let params = {
-      IndexName: placesName,
-      Position: [e.lngLat.lng, e.lngLat.lat],
+    const params = {
+      QueryPosition: [e.lngLat.lng, e.lngLat.lat],
       Language: "en",
       MaxResults: "5",
     };
 
     // Set up command to search for results around clicked point
-    const command = new amazonLocationClient.SearchPlaceIndexForPositionCommand(params);
+    const command = new amazonLocationClient.places.ReverseGeocodeCommand(params);
 
     try {
       // Make request to search for results around clicked point
@@ -61,9 +59,6 @@ async function main() {
 
       // Write JSON response data to HTML
       document.querySelector("#response").textContent = JSON.stringify(data, undefined, 2);
-
-      // Display place label in an alert box
-      alert(data.Results[0].Place.Label);
     } catch (error) {
       // Write JSON response error to HTML
       document.querySelector("#response").textContent = JSON.stringify(error, undefined, 2);

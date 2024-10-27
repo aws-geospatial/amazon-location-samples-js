@@ -11,12 +11,11 @@ Create Amazon Location resources for the app by following [these steps](https://
 
 ## Configure
 
-Open `main.js` and enter the API key, map resource name, place index name, and the region where the resources were created in.
+Open `main.js` and enter the API key and the region where the resources were created in.
 
 ## Run
 
 Open `quickstart.html` in your browser.
-
 
 ## Get help
 
