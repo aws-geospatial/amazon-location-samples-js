@@ -1,7 +1,19 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: A Template to provision Amazon Location Service resources for js-quick-start-using-cognito
-
 Resources:
+  Map:
+    Type: AWS::Location::Map
+    Properties:
+      Configuration:
+        Style: VectorEsriTopographic
+      Description: Map Resource created for js-quick-start-using-cognito
+      MapName: js-quick-start-using-cognito
+  PlaceIndex:
+    Type: AWS::Location::PlaceIndex
+    Properties:
+      DataSource: Esri
+      Description: Place Index Resource created for js-quick-start-using-cognito
+      IndexName: js-quick-start-using-cognito
   IdentityPool:
     Type: AWS::Cognito::IdentityPool
     Properties:
@@ -33,11 +45,11 @@ Resources:
             Statement:
               - Effect: Allow
                 Action:
-                  - "geo-maps:*"
-                  - "geo-places:ReverseGeocode"
+                  - "geo:GetMap*"
+                  - "geo:SearchPlaceIndexForPosition"
                 Resource:
-                  - !Sub "arn:aws:geo-maps:${AWS::Region}::provider/default"
-                  - !Sub "arn:aws:geo-places:${AWS::Region}::provider/default"
+                  - !GetAtt Map.Arn
+                  - !GetAtt PlaceIndex.Arn
 
   IdentityPoolRoleMapping:
     Type: AWS::Cognito::IdentityPoolRoleAttachment
@@ -50,3 +62,9 @@ Outputs:
   IdentityPoolId:
     Description: The Cognito Identity Pool ID to configure the js-quick-start-using-cognito
     Value: !Ref IdentityPool
+  MapName:
+    Description: The map resource name to configure the js-quick-start-using-cognito
+    Value: !Ref Map
+  PlaceIndexName:
+    Description: The place index resource name to configure the js-quick-start-using-cognito
+    Value: !Ref PlaceIndex
