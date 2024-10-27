@@ -1,19 +1,39 @@
 // AWS Resources
 // Cognito:
-const identityPoolId = "<Identity Pool ID>";
+// const identityPoolId = "<Identity Pool ID>";
+const identityPoolId = "eu-central-1:0c6d6fe2-257a-4908-924f-517696997b26";
 
 // Amazon Location Service:
 const region = identityPoolId.split(":")[0];
 
 // Initialize a map
 function initializeMap(authHelper) {
+      const credentials = authHelper.getCredentials();
+      console.log({credentials});
       // Initialize the map
       const mlglMap = new maplibregl.Map({
             container: "map", // HTML element ID of map element
             center: [-77.03674, 38.891602], // Initial map centerpoint
             zoom: 16, // Initial map zoom
             style: `https://maps.geo.${region}.amazonaws.com/v2/styles/Standard/descriptor`, // Defines the appearance of the map
-            ...authHelper.getMapAuthenticationOptions(), // Provides options required to make requests to Amazon Location
+            transformRequest: (url) => {
+                  // Only sign Amazon Location Service URLs
+                  if (
+                        url.match(
+                              /^https:\/\/maps\.(geo|geo-fips)\.[a-z0-9-]+\.(amazonaws\.com)/
+                        )
+                  ) {
+                        return {
+                              url: Signer.signUrl(url, region, {
+                                    access_key: credentials.accessKeyId,
+                                    secret_key: credentials.secretAccessKey,
+                                    session_token: credentials.sessionToken,
+                              }),
+                        };
+                  }
+
+                  return {url};
+            },
       });
 
       // Add navigation control to the top left of the map
@@ -32,7 +52,7 @@ async function main() {
       const map = await initializeMap(authHelper);
       const client = new amazonLocationClient.places.GeoPlacesClient({
             region,
-            endpoint: `https://places.geo.${region}.amazonaws.com/v2`,
+            endpoint: `https://places.geo.${region}.amazonaws.com/v2`, // FIXME
             ...authHelper.getLocationClientConfig(), // Provides configuration required to make requests to Amazon Location
       });
 
@@ -59,7 +79,8 @@ async function main() {
             };
 
             // Set up command to search for results around clicked point
-            const command = new amazonLocationClient.places.ReverseGeocodeCommand(params);
+            const command =
+                  new amazonLocationClient.places.ReverseGeocodeCommand(params);
 
             try {
                   // Make request to search for results around clicked point
