@@ -26,7 +26,7 @@ async function main() {
   const map = await initializeMap();
   const client = new amazonLocationClient.places.GeoPlacesClient({
     region,
-    endpoint: `https://places.geo.${region}.amazonaws.com/v2`,
+    endpoint: `https://places.geo.${region}.amazonaws.com/v2`, // FIXME
     ...authHelper.getLocationClientConfig(), // Provides configuration required to make requests to Amazon Location
   });
 
