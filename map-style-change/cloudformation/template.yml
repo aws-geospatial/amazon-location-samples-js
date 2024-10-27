@@ -1,72 +1,23 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: A Template to provision Amazon Location Service resources for js-map-style-change
+
+# Create an API key that has access to maps
 Resources:
-  MapLight:
-    Type: AWS::Location::Map
+  AmazonLocationApiKey:
+    Type: AWS::Location::APIKey
     Properties:
-      Configuration:
-        Style: VectorOpenDataStandardLight
-      Description: Map Resource created for js-map-style-change
-      MapName: js-map-style-change-1
-  MapDark:
-    Type: AWS::Location::Map
-    Properties:
-      Configuration:
-        Style: VectorOpenDataStandardDark
-      Description: Map Resource created for js-map-style-change
-      MapName: js-map-style-change-2
-  IdentityPool:
-    Type: AWS::Cognito::IdentityPool
-    Properties:
-      AllowUnauthenticatedIdentities: True
-      IdentityPoolName: sample-app-6
-
-  IdentityPoolRole:
-    Type: AWS::IAM::Role
-    Properties:
-      Description: Role created for usage with Cognito for js-map-style-change
-      RoleName: sample-app-6-unauth-role
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          - Effect: "Allow"
-            Principal:
-              Federated: "cognito-identity.amazonaws.com"
-            Action:
-              - "sts:AssumeRoleWithWebIdentity"
-            Condition:
-              StringEquals:
-                "cognito-identity.amazonaws.com:aud": !Ref IdentityPool
-              "ForAnyValue:StringLike":
-                "cognito-identity.amazonaws.com:amr": unauthenticated
-      Policies:
-        - PolicyName: sample-app-6-unauth-policy
-          PolicyDocument:
-            Version: 2012-10-17
-            Statement:
-              - Effect: Allow
-                Action:
-                  - "geo:GetMap*"
-                Resource: !GetAtt MapLight.Arn
-              - Effect: Allow
-                Action:
-                  - "geo:GetMap*"
-                Resource: !GetAtt MapDark.Arn
-
-  IdentityPoolRoleMapping:
-    Type: AWS::Cognito::IdentityPoolRoleAttachment
-    Properties:
-      IdentityPoolId: !Ref IdentityPool
-      Roles:
-        unauthenticated: !GetAtt IdentityPoolRole.Arn
+      KeyName: js-map-style-change
+      Description: API Key for Amazon Location Service Maps
+      NoExpiry: true
+      Restrictions:
+        AllowActions:
+          - "geo-maps:*"
+        AllowResources:
+          - !Sub "arn:aws:geo-maps:${AWS::Region}::provider/default"
 
 Outputs:
-  IdentityPoolId:
-    Description: The Cognito Identity Pool ID to configure the js-map-style-change
-    Value: !Ref IdentityPool
-  MapLightName:
-    Description: The map resource name to configure the js-map-style-change
-    Value: !Ref MapLight
-  MapDarkName:
-    Description: The map resource name to configure the js-map-style-change
-    Value: !Ref MapDark
+  ApiKey:
+    Value: !Ref AmazonLocationApiKey
+
+  Region:
+    Value: !Sub ${AWS::Region}

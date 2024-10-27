@@ -18,18 +18,10 @@
       <body>
             <div id="map" />
             <script src="https://location.aws.com/scripts/maplibre-gl@3.3.1/dist/maplibre-gl.js"></script>
-            <script src="https://location.aws.com/scripts/@aws/amazon-location-utilities-auth-helper@1.0.2/dist/amazonLocationAuthHelper.js"></script>
             <script>
                   async function initializeMap() {
-                        const identityPoolId = "<Identity Pool ID>";
-                        const mapName = "js-map-with-geojson-point";
-                        const region = identityPoolId.split(":")[0];
-
-                        // Create an authentication helper instance using credentials from Cognito
-                        const authHelper =
-                              await amazonLocationAuthHelper.withIdentityPoolId(
-                                    identityPoolId
-                              );
+                        const apiKey = "<YOUR_AWS_API_KEY>";
+                        const region = "<YOUR_AWS_REGION>";
 
                         // Initialize the map
                         const map = new maplibregl.Map({
@@ -38,10 +30,7 @@
                               center: [-123.12128, 49.281],
                               // Initial zoom level
                               zoom: 14,
-                              style: `https://maps.geo.${region}.amazonaws.com/maps/v0/maps/${mapName}/style-descriptor`,
-                              hash: true,
-                              // Provides options required to make requests to Amazon Location
-                              ...authHelper.getMapAuthenticationOptions(),
+                              style: `https://maps.geo.${region}.amazonaws.com/v2/styles/Standard/descriptor?key=${apiKey}`,
                         });
 
                         // Add navigation controls
