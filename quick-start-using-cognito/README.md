@@ -9,13 +9,15 @@ See the [quick start guide](https://docs.aws.amazon.com/location/latest/develope
 
 Click the button below to create the necessary AWS resources for this sample app to run. It will open the AWS Management Console and initiate the CloudFormation template deployment process.
 
+<!-- TODO: templateUrl needs to be udpated with the correct template -->
+
 [![Launch Stack](https://amazon-location-cloudformation-templates.s3.us-west-2.amazonaws.com/cfn-launch-stack-button.svg)](https://console.aws.amazon.com/cloudformation/home?#/stacks/quickcreate?stackName=quick-start-using-cognito-example&templateURL=https://amazon-location-cloudformation-templates.s3.us-west-2.amazonaws.com/samples/web-js-quick-start-using-cognito/template.yml)
 
 Once the deployment process is complete, go to the `Outputs` section to get the Cognito Identity Pool ID, map resource name, and place index name.
 
 ## Configure
 
-Open `main.js` and use the CloudFormation stack outputs to enter your Cognito Identity Pool ID, map resource name, place index name, and the region where the resources were created in.
+Open `main.js` and use the CloudFormation stack outputs to enter your Cognito Identity Pool ID.
 
 ## Run
 
