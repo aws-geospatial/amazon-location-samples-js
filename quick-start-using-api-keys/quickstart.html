@@ -6,7 +6,7 @@
 
             <!-- Styles -->
             <link
-                  href="https://location.aws.com/scripts/maplibre-gl@3.3.1/dist/maplibre-gl.css"
+                  href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.min.css"
                   rel="stylesheet"
             />
             <link href="main.css" rel="stylesheet" />
@@ -29,9 +29,12 @@
             </footer>
 
             <!-- JavaScript dependencies -->
-            <script src="https://location.aws.com/scripts/maplibre-gl@3.3.1/dist/maplibre-gl.js"></script>
-            <script src="https://location.aws.com/scripts/@aws/amazon-location-client@1.0.1/dist/amazonLocationClient.js"></script>
-            <script src="https://location.aws.com/scripts/@aws/amazon-location-utilities-auth-helper@1.0.2/dist/amazonLocationAuthHelper.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.min.js"></script>
+            <!-- TODO: uncomment once script is live -->
+            <!-- <script src="https://cdn.jsdelivr.net/npm/@aws/amazon-location-client@1.0.2/dist/amazonLocationClient.min.js"></script> -->
+            <!-- TODO: remove once script is available from public cdn -->
+            <script src="../tempClient/amazonLocationClient.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@aws/amazon-location-utilities-auth-helper@1.0.7/dist/amazonLocationAuthHelper.min.js"></script>
 
             <!-- JavaScript for the app -->
             <script src="main.js"></script>

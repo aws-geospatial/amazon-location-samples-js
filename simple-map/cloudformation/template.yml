@@ -1,58 +1,23 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: A Template to provision Amazon Location Service resources for js-simple-map
+
+# Create an API key that has access to maps
 Resources:
-  Map:
-    Type: AWS::Location::Map
+  AmazonLocationApiKey:
+    Type: AWS::Location::APIKey
     Properties:
-      Configuration:
-        Style: VectorOpenDataStandardLight
-      Description: Map Resource created for js-simple-map
-      MapName: js-simple-map
-  IdentityPool:
-    Type: AWS::Cognito::IdentityPool
-    Properties:
-      AllowUnauthenticatedIdentities: True
-      IdentityPoolName: js-simple-map
-
-  IdentityPoolRole:
-    Type: AWS::IAM::Role
-    Properties:
-      Description: Role created for usage with Cognito for js-simple-map
-      RoleName: js-simple-map-unauth-role
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          - Effect: "Allow"
-            Principal:
-              Federated: "cognito-identity.amazonaws.com"
-            Action:
-              - "sts:AssumeRoleWithWebIdentity"
-            Condition:
-              StringEquals:
-                "cognito-identity.amazonaws.com:aud": !Ref IdentityPool
-              "ForAnyValue:StringLike":
-                "cognito-identity.amazonaws.com:amr": unauthenticated
-      Policies:
-        - PolicyName: js-simple-map-unauth-policy
-          PolicyDocument:
-            Version: 2012-10-17
-            Statement:
-              - Effect: Allow
-                Action:
-                  - "geo:GetMap*"
-                Resource: !GetAtt Map.Arn
-
-  IdentityPoolRoleMapping:
-    Type: AWS::Cognito::IdentityPoolRoleAttachment
-    Properties:
-      IdentityPoolId: !Ref IdentityPool
-      Roles:
-        unauthenticated: !GetAtt IdentityPoolRole.Arn
+      KeyName: js-simple-map
+      Description: API Key for Amazon Location Service Maps
+      NoExpiry: true
+      Restrictions:
+        AllowActions:
+          - "geo-maps:*"
+        AllowResources:
+          - !Sub "arn:aws:geo-maps:${AWS::Region}::provider/default"
 
 Outputs:
-  IdentityPoolId:
-    Description: The Cognito Identity Pool ID to configure the js-simple-map
-    Value: !Ref IdentityPool
-  MapName:
-    Description: The map resource name to configure the js-simple-map
-    Value: !Ref Map
+  ApiKey:
+    Value: !Ref AmazonLocationApiKey
+
+  Region:
+    Value: !Sub ${AWS::Region}
