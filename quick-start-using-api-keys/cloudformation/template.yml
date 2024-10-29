@@ -1,0 +1,24 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: A Template to provision Amazon Location Service resources for js-quick-start-using-api-keys
+
+# Create an API key that has access to maps and places
+Resources:
+  AmazonLocationApiKey:
+    Type: AWS::Location::APIKey
+    Properties:
+      KeyName: js-quick-start-using-api-keys
+      Description: API Key for Amazon Location Service Maps and Places
+      NoExpiry: true
+      Restrictions:
+        AllowActions:
+          - "geo-maps:*"
+          - "geo-places:reverseGeocode"
+        AllowResources:
+          - !Sub "arn:aws:geo-maps:${AWS::Region}::provider/default"
+
+Outputs:
+  ApiKey:
+    Value: !Ref AmazonLocationApiKey
+
+  Region:
+    Value: !Sub ${AWS::Region}
