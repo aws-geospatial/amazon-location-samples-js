@@ -32,7 +32,7 @@ If you would like to remove all of the resources created in this walkthrough,
 delete the CloudFormation stack called `map-style-change`. Then, to clean up the API Key:
 - Navigate to Amazon Location Service
 - Click on "API keys" from the left navigation pane
-- Click on the ApiKey name
+- Click on the ApiKey `js-map-style-change`
 - Press Delete
 
 ## Get help
