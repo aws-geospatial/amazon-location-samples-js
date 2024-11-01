@@ -30,7 +30,7 @@
                   <input
                         class="layer"
                         type="radio"
-                        name="map-style-standard-light"
+                        name="map-style"
                         value="Standard:Light"
                         checked="checked"
                   />
@@ -39,7 +39,7 @@
                   <input
                         class="layer"
                         type="radio"
-                        name="map-style-standard-dark"
+                        name="map-style"
                         value="Standard:Dark"
                   />
                   <label for="map-style-standard-dark">StandardDark</label>
@@ -47,7 +47,7 @@
                   <input
                         class="layer"
                         type="radio"
-                        name="map-style-monochrome-light"
+                        name="map-style"
                         value="Monochrome:Light"
                   />
                   <label for="map-style-monochrome-light"
@@ -57,7 +57,7 @@
                   <input
                         class="layer"
                         type="radio"
-                        name="map-style-monochrome-dark"
+                        name="map-style"
                         value="Monochrome:Dark"
                   />
                   <label for="map-style-monochrome-dark">MonochromeDark</label>
@@ -65,7 +65,7 @@
                   <input
                         class="layer"
                         type="radio"
-                        name="map-style-hybrid"
+                        name="map-style"
                         value="Hybrid"
                   />
                   <label for="map-style-hybrid">Hybrid</label>
@@ -73,7 +73,7 @@
                   <input
                         class="layer"
                         type="radio"
-                        name="map-style-satellite"
+                        name="map-style"
                         value="Satellite"
                   />
                   <label for="map-style-satellite">Satellite</label>
@@ -92,6 +92,7 @@
                               // Initial zoom level
                               zoom: 10,
                               style: `https://maps.geo.${region}.amazonaws.com/v2/styles/Standard/descriptor?key=${apiKey}&color-scheme=Light`,
+                              validateStyle: false, // Disable style validation for faster map load
                         });
 
                         // Add navigation controls
