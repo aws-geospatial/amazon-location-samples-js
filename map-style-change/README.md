@@ -15,7 +15,7 @@ Once the deployment process is complete, go to the `Outputs` to view ApiKey and 
 In the stack output's tab only the ApiKey name is visible, in order to get the ApiKey value:
 - Navigate to Amazon Location Service
 - Click on "API keys" from the left navigation pane
-- Click on the ApiKey name
+- Click on the ApiKey `js-map-style-change`
 - Copy the ApiKey value
 
 ## Configure
