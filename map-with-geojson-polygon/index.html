@@ -29,8 +29,9 @@
                               // Initial map centerpoint
                               center: [-123.12128, 49.281],
                               // Initial zoom level
-                              zoom: 14,
+                              zoom: 13,
                               style: `https://maps.geo.${region}.amazonaws.com/v2/styles/Standard/descriptor?key=${apiKey}`,
+                              validateStyle: false, // Disable style validation for faster map load
                         });
 
                         // Add navigation controls
