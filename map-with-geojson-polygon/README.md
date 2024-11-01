@@ -6,16 +6,16 @@ This sample app shows you how to add a GeoJSON polygon to a web map. It uses Ama
 
 Click the button below to create the necessary AWS resources for this sample app to run. It will open the AWS Management Console and initiate the CloudFormation template deployment process.
 
-<!-- TODO: templateUrl needs to be udpated with the correct template -->
+<!-- TODO: templateUrl needs to be updated with the correct template -->
 
 [![Launch Stack](https://amazon-location-cloudformation-templates.s3.us-west-2.amazonaws.com/cfn-launch-stack-button.svg)](https://console.aws.amazon.com/cloudformation/home?#/stacks/quickcreate?stackName=geojson-polygon-example&templateURL=https://amazon-location-cloudformation-templates.s3.us-west-2.amazonaws.com/samples/web-js-map-with-geojson-polygon/template.yml)
 
-Once the deployment process is complete, go to the `Outputs` view ApiKey and Region.
+Once the deployment process is complete, go to the `Outputs` to view ApiKey and Region.
 
-- In stack output's tab only the ApiKey name is visible, in order to get the ApiKey value
+In the stack output's tab only the ApiKey name is visible, in order to get the ApiKey value:
 - Navigate to Amazon Location Service
 - Click on "API keys" from the left navigation pane
-- Click on the ApiKey name
+- Click on the ApiKey `js-map-with-geojson-polygon`
 - Copy the ApiKey value
 
 ## Configure
@@ -28,7 +28,12 @@ Open `index.html` in your browser.
 
 ## Clean up
 
-If you would like to remove all of the resources created in this walkthrough, delete the CloudFormation stack called `geojson-polygon-example`.
+If you would like to remove all of the resources created in this walkthrough,
+delete the CloudFormation stack called `geojson-polygon-example`. Then, to clean up the API Key:
+- Navigate to Amazon Location Service
+- Click on "API keys" from the left navigation pane
+- Click on the ApiKey `js-map-with-geojson-polygon`
+- Press Delete
 
 ## Get help
 

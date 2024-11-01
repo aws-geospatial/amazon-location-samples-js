@@ -31,6 +31,7 @@
                               // Initial zoom level
                               zoom: 15,
                               style: `https://maps.geo.${region}.amazonaws.com/v2/styles/Standard/descriptor?key=${apiKey}`,
+                              validateStyle: false, // Disable style validation for faster map load
                         });
 
                         // Add navigation controls

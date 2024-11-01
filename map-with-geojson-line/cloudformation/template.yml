@@ -5,6 +5,7 @@ Description: A Template to provision Amazon Location Service resources for js-ma
 Resources:
   AmazonLocationApiKey:
     Type: AWS::Location::APIKey
+    DeletionPolicy: Retain
     Properties:
       KeyName: js-map-with-geojson-line
       Description: API Key for Amazon Location Service Maps
