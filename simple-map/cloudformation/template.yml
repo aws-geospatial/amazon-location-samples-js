@@ -5,6 +5,7 @@ Description: A Template to provision Amazon Location Service resources for js-si
 Resources:
   AmazonLocationApiKey:
     Type: AWS::Location::APIKey
+    DeletionPolicy: Retain
     Properties:
       KeyName: js-simple-map
       Description: API Key for Amazon Location Service Maps

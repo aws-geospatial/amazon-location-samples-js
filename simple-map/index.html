@@ -1,46 +1,44 @@
 <!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
 <!-- SPDX-License-Identifier: MIT-0 -->
 <html>
-      <head>
-            <link
-                  href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.min.css"
-                  rel="stylesheet"
-            />
-            <style>
-                  body {
-                        margin: 0;
-                  }
-                  #map {
-                        height: 100vh;
-                  }
-            </style>
-      </head>
-      <body>
-            <div id="map" />
-            <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.min.js"></script>
-            <script>
-                  async function initializeMap() {
-                        const apiKey = "<YOUR_AWS_API_KEY>";
-                        const region = "<YOUR_AWS_REGION>";
+  <head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+      }
+      #map {
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map" />
+    <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.min.js"></script>
+    <script>
+      async function initializeMap() {
+        const apiKey = "<YOUR_AWS_API_KEY>";
+        const region = "<YOUR_AWS_REGION>";
 
-                        // Initialize the map
-                        const map = new maplibregl.Map({
-                              container: "map",
-                              // Initial map centerpoint
-                              center: [-123.1187, 49.2819],
-                              // Initial zoom level
-                              zoom: 10,
-                              style: `https://maps.geo.${region}.amazonaws.com/v2/styles/Standard/descriptor?key=${apiKey}`,
-                        });
+        // Initialize the map
+        const map = new maplibregl.Map({
+          container: "map",
+          // Initial map centerpoint
+          center: [-123.1187, 49.2819],
+          // Initial zoom level
+          zoom: 10,
+          style: `https://maps.geo.${region}.amazonaws.com/v2/styles/Standard/descriptor?key=${apiKey}`,
+          validateStyle: false, // Disable style validation for faster map load
+        });
 
-                        // Add navigation controls
-                        map.addControl(
-                              new maplibregl.NavigationControl(),
-                              "top-left"
-                        );
-                  }
+        // Add navigation controls
+        map.addControl(new maplibregl.NavigationControl(), "top-left");
+      }
 
-                  initializeMap();
-            </script>
-      </body>
+      initializeMap();
+    </script>
+  </body>
 </html>
