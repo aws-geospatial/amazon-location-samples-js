@@ -5,6 +5,7 @@ Description: A Template to provision Amazon Location Service resources for js-qu
 Resources:
   AmazonLocationApiKey:
     Type: AWS::Location::APIKey
+    DeletionPolicy: Retain
     Properties:
       KeyName: js-quick-start-using-api-keys
       Description: API Key for Amazon Location Service Maps and Places
@@ -12,9 +13,10 @@ Resources:
       Restrictions:
         AllowActions:
           - "geo-maps:*"
-          - "geo-places:reverseGeocode"
+          - "geo-places:ReverseGeocode"
         AllowResources:
           - !Sub "arn:aws:geo-maps:${AWS::Region}::provider/default"
+          - !Sub "arn:aws:geo-places:${AWS::Region}::provider/default"
 
 Outputs:
   ApiKey:
