@@ -32,7 +32,7 @@ If you would like to remove all of the resources created in this walkthrough,
 delete the CloudFormation stack called `geojson-line-example`. Then, to clean up the API Key:
 - Navigate to Amazon Location Service
 - Click on "API keys" from the left navigation pane
-- Click on the ApiKey name
+- Click on the ApiKey `js-map-with-geojson-line`
 - Press Delete
 
 ## Get help
