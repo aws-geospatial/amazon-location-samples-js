@@ -1,0 +1,141 @@
+/* Set body and html to full screen */
+body, html { 
+    margin: 0; 
+    padding: 0; 
+    width: 100%; 
+    height: 100%; 
+}
+
+/* Set map to full screen */
+#map { 
+    width: 100%; 
+    height: 100vh; 
+}
+
+/* Style for popup content */
+.popup-content {
+    max-width: 200px; /* Set max width for responsiveness */
+    padding: 8px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    font-size: 14px;
+    position: relative;
+    transition: background-color 0.3s ease;
+}
+
+/* Style for copy button */
+.copy-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #4a4a4a;
+    visibility: hidden; /* Use visibility instead */
+}
+
+.maplibregl-ctrl-geocoder {
+    min-width: 400px; /* Set your desired minimum width */
+}
+
+.maplibregl-popup-content {
+    min-width: 200px; /* Set your desired minimum width */
+}
+
+/* Change background color and show copy button on hover */
+.popup-content:hover .copy-button {
+    visibility: visible; /* Show button without layout shift */
+    popup-content
+    background-color: #e3f2fd;
+}
+
+/* Badge style for popup content. Used for displaying additional information in popup content */
+.badge {
+    position: absolute;
+    padding-left: 5px;
+    padding-right: 5px;
+    top: 5px;
+    left: 5px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+/* Unique colors for each category */
+
+.country {
+  background-color: #FFB3BA; 
+  color: #444; 
+}
+
+.region {
+  background-color: #FFCCAA; 
+  color: #333; 
+}
+
+.subregion {
+  background-color: #FFE4B5; 
+  color: #222; 
+}
+
+.locality {
+  background-color: #FFFACD; 
+  color: #222; 
+}
+
+.district {
+  background-color: #FAEBD7; 
+  color: #333; 
+}
+
+.subdistrict {
+  background-color: #B3E0D4; 
+  color: #333; 
+}
+
+.postalcodearea {
+  background-color: #D4E6F1; 
+  color: #333; 
+}
+
+.postalcodepoint {
+  background-color: #E6E6FA; 
+  color: #333; 
+}
+
+.block {
+  background-color: #EAB8D1; 
+  color: #222; 
+}
+
+.subblock {
+  background-color: #D5C5E2; 
+  color: #222; 
+}
+
+.intersection {
+  background-color: #B2C7E1; 
+  color: #333; 
+}
+
+.street {
+  background-color: #AFDBD2; 
+  color: #333; 
+}
+
+.pointofinterest {
+  background-color: #B2E0D9; 
+  color: #222; 
+}
+
+.pointaddress {
+  background-color: #C4D600; 
+  color: #222; 
+}
+
+.interpolatedaddress {
+  background-color: #C8E6C9; 
+  color: #222; 
+}
+
