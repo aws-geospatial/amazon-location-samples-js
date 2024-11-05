@@ -1,0 +1,184 @@
+d<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Amazon Location Service - Map App</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Interactive map application using Amazon Location Service">
+
+    
+    <title>Amazon Location Service - Getting Started with First Map App</title>
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Interactive map application using Amazon Location Service">
+
+    <!--Link to MapLibre CSS and JavaScript library for map rendering and visualization -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
+    <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+    
+    <!--Link to MapLibre Geocoder CSS and JavaScript library for place search and geocoding -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-geocoder@1.7.0/dist/maplibre-gl-geocoder.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-geocoder@1.7.0/dist/maplibre-gl-geocoder.js"></script>
+    
+    <!--Link to amazon-location JavaScript librarie -->
+    <script src="https://cdn.jsdelivr.net/npm/@aws/amazon-location-utilities-auth-helper@1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@aws/amazon-location-client@1.2"></script>
+    
+    <!-- Link to the first Amazon Location Map App's CSS and JavaScript -->
+    <script src="utils.js"></script>
+    <link rel="stylesheet" href="style.css"/>
+
+</head>
+<body>
+    <main role="main" aria-label="Map Container">
+        <div id="map"></div>
+    </main>
+
+    <script>
+        
+        /** 
+         * Step 1: Setup API Key and AWS Region
+        */        
+        const API_KEY = "Your_API_Key"; // Replace with your Amazon Location Service API key
+        const AWS_REGION = "Region_where_you_created_API_Key"; // Replace with your AWS region
+
+
+        /** 
+         * Step 2: Add maps feature to application 
+         */
+        // Step 2.1 & 2.2 define and call initializeMap(...)
+        const map = initializeMap("Standard","Light");
+        // Step 2.2 Add navigation controls to the map
+        map.addControl(new maplibregl.NavigationControl()); 
+
+        /** 
+         * Step 3: Add places features to application 
+        */   
+         //Step 3.1 define call getGeoPlaces(...) and add it in action 3.3. 
+        const geoPlaces =  getGeoPlaces(map);
+        // Step 3.2 & 3.3: define and call function addSearchBox(...).
+        addSearchBox(map, geoPlaces);
+        // Step 3.4 and 3.5.: efine and addMapClick() to show places information based a map click action
+        addMapClick(map, geoPlaces); 
+
+        /**
+         * Functions to add maps and places features.
+         */
+        
+        /**
+         * Initializes the map with the specified style and color scheme.
+         * 
+         * @param {string} mapStyle - The style of the map (e.g., "Standard").
+         * @param {string} colorScheme - The color scheme for the map (e.g., "Dark").
+         * @returns {maplibregl.Map} The initialized map instance.
+         */
+        function initializeMap(mapStyle = "Standard", colorScheme = "Dark") {
+            const styleUrl = `https://maps.geo.${AWS_REGION}.amazonaws.com/v2/styles/${mapStyle}/descriptor?key=${API_KEY}&color-scheme=${colorScheme}`;
+            const map = new maplibregl.Map({
+                container: 'map', // The ID of the map container
+                style: styleUrl, // The style URL for the map
+                center: [-123.116226, 49.246292], // Starting center coordinates
+                zoom: 10, // Initial zoom level
+                validateStyle: false // Disable style validation
+            });
+            return map; // Return the initialized map
+        }
+
+      
+
+        /**
+         * Gets a GeoPlaces instance for Places operations.
+         * 
+         * @param {maplibregl.Map} map - The map instance for which GeoPlaces is initialized.
+         * @returns {Promise<GeoPlaces>} The GeoPlaces instance.
+         */
+         function getGeoPlaces(map) {
+            const authHelper =  amazonLocationClient.withAPIKey(API_KEY, AWS_REGION); // Authenticate using the API key and AWS region
+            const locationClient = new amazonLocationClient.GeoPlacesClient(authHelper.getClientConfig()); // Create a GeoPlaces client
+            const geoPlaces = new GeoPlaces(locationClient, map); // Create GeoPlaces instance
+            return geoPlaces; // Return the GeoPlaces instance
+        }
+
+        /**
+         * Adds search box to the map.
+         * 
+         * @param {maplibregl.Map} map - The map instance to which the search box will be added.
+         * @param {GeoPlaces} geoPlaces - The GeoPlaces instance used for geocoding operations.
+         */
+        function addSearchBox(map, geoPlaces) {
+            const searchBox = new MaplibreGeocoder(geoPlaces, {
+                maplibregl,
+                showResultsWhileTyping: true, // Show results while typing
+                debounceSearch: 300, // Debounce search requests
+                limit: 30, // Limit number of results
+                popuprender: renderPopup, // Function to render popup
+                reverseGeocode: true, // Enable reverse geocoding
+                zoom: 14, // Zoom level on result selection
+                placeholder: "Search text or nearby (lat,long)"
+            });
+            map.addControl(searchBox, 'top-left'); // Add the search box to the map
+
+            // Event listener for when a search result is selected
+            searchBox.on('result', async (event) => {
+                const { id, result_type } = event.result; // Get result ID and type
+                if (result_type === "Place") { // Check if the result is a place
+                    const placeResults = await geoPlaces.searchByPlaceId(id); // Fetch details for the selected place
+                    if (placeResults.features.length) {
+                        createPopup(placeResults.features[0]).addTo(map); // Create and add popup for the place
+                    }
+                }
+            });
+        }
+
+        /**
+         * Renders the popup content for a given feature.
+         * 
+         * @param {Object} feature - The feature object containing place information.
+         * @returns {string} The HTML content for the popup.
+         */
+        function renderPopup(feature) {
+            return `
+                <div class="popup-content">
+                    <span class="${feature.place_type.toLowerCase()} badge">${feature.place_type}</span><br>
+                    ${feature.place_name}
+                </div>`;
+        }
+
+        /**
+         * Creates a popup for a given feature and sets its position.
+         * 
+         * @param {Object} feature - The feature object to display in the popup.
+         * @returns {maplibregl.Popup} The created popup instance.
+         */
+        function createPopup(feature) {
+            return new maplibregl.Popup({ offset: 30 }) // Create a new popup
+                .setLngLat(feature.geometry.coordinates) // Set the popup position
+                .setHTML(renderPopup(feature)); // Set the popup content
+        }
+
+        /**
+         * Sets up reverse geocoding on map click events.
+         * 
+         * @param {maplibregl.Map} map - The map instance to which the click functionality is added.
+         * @param {GeoPlaces} geoPlaces - The GeoPlaces instance used for reverse geocoding.
+         */
+        function addMapClick(map, geoPlaces) {
+            map.on('click', async ({ lngLat }) => { // Listen for click events on the map
+                const response = await geoPlaces.reverseGeocode({ query: [lngLat.lng, lngLat.lat], limit: 1, click:true }); // Perform reverse geocoding
+
+                if (response.features.length) { // If there are results
+                    const clickMarker = new maplibregl.Marker({ color: "orange" }); // Create a marker
+                    const feature = response.features[0]; // Get the clicked feature
+                    const clickedPopup = createPopup(feature); // Create popup for the clicked feature
+                    clickMarker.setLngLat(feature.geometry.coordinates) // Set marker position
+                        .setPopup(clickedPopup) // Attach popup to marker
+                        .addTo(map); // Add marker to the map
+
+                    clickedPopup.on('close', () => clickMarker.remove()).addTo(map); // Remove marker when popup is closed
+                }
+            });
+        }
+        
+    </script>
+</body>
+</html>
