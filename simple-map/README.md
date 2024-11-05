@@ -39,3 +39,5 @@ See [CONTRIBUTING](../CONTRIBUTING.md#security-issue-notifications) for more inf
 ## Licensing
 
 This library is licensed under the MIT-0 License. See [LICENSE](../LICENSE).
+
+<img width="1466" alt="Screenshot 2024-11-05 at 2 53 53 PM" src="https://github.com/user-attachments/assets/1f1390e7-0ba6-4ab3-b355-de830c127eee">
