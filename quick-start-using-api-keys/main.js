@@ -3,7 +3,7 @@ const apiKey = "<YOUR_AWS_API_KEY>";
 const region = "<YOUR_AWS_REGION>";
 
 // Initialize a map
-async function initializeMap() {
+function initializeMap() {
   // Initialize the map
   const map = new maplibregl.Map({
     container: "map", // HTML element ID of map element
@@ -21,10 +21,10 @@ async function initializeMap() {
 
 async function main() {
   // Create an authentication helper instance using an API key and region
-  const authHelper = await amazonLocationClient.withAPIKey(apiKey, region);
+  const authHelper = amazonLocationClient.withAPIKey(apiKey, region);
 
   // Initialize map and GeoPlaces client from standalone Places SDK
-  const map = await initializeMap();
+  const map = initializeMap();
   const client = new amazonLocationClient.places.GeoPlacesClient(
     authHelper.getClientConfig()
   );
