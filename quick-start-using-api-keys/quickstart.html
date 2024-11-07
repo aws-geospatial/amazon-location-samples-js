@@ -1,39 +1,38 @@
 <!DOCTYPE html>
 <html>
-      <head>
-            <meta charset="utf-8" />
-            <title>Quick start tutorial</title>
+  <head>
+    <meta charset="utf-8" />
+    <title>Quick start tutorial</title>
 
-            <!-- Styles -->
-            <link
-                  href="https://location.aws.com/scripts/maplibre-gl@3.3.1/dist/maplibre-gl.css"
-                  rel="stylesheet"
-            />
-            <link href="main.css" rel="stylesheet" />
-      </head>
+    <!-- Styles -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.min.css"
+      rel="stylesheet"
+    />
+    <link href="main.css" rel="stylesheet" />
+  </head>
 
-      <body>
-            <header>
-                  <h1>Quick start tutorial</h1>
-            </header>
-            <main>
-                  <div id="map"></div>
-                  <aside>
-                        <h2>JSON Response</h2>
-                        <pre id="response"></pre>
-                  </aside>
-            </main>
-            <footer>
-                  This is a simple Amazon Location Service app. Pan and zoom.
-                  Click to see details about entities close to a point.
-            </footer>
+  <body>
+    <header>
+      <h1>Quick start tutorial</h1>
+    </header>
+    <main>
+      <div id="map"></div>
+      <aside>
+        <h2>JSON Response</h2>
+        <pre id="response"></pre>
+      </aside>
+    </main>
+    <footer>
+      This is a simple Amazon Location Service app. Pan and zoom. Click to see
+      details about entities close to a point.
+    </footer>
 
-            <!-- JavaScript dependencies -->
-            <script src="https://location.aws.com/scripts/maplibre-gl@3.3.1/dist/maplibre-gl.js"></script>
-            <script src="https://location.aws.com/scripts/@aws/amazon-location-client@1.0.1/dist/amazonLocationClient.js"></script>
-            <script src="https://location.aws.com/scripts/@aws/amazon-location-utilities-auth-helper@1.0.2/dist/amazonLocationAuthHelper.js"></script>
+    <!-- JavaScript dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@aws/amazon-location-client@1.x"></script>
 
-            <!-- JavaScript for the app -->
-            <script src="main.js"></script>
-      </body>
+    <!-- JavaScript for the app -->
+    <script src="main.js"></script>
+  </body>
 </html>

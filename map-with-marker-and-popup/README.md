@@ -6,13 +6,21 @@ This sample app shows you how to add a marker with a popup to a web map. It uses
 
 Click the button below to create the necessary AWS resources for this sample app to run. It will open the AWS Management Console and initiate the CloudFormation template deployment process.
 
+<!-- TODO: templateUrl needs to be updated with the correct template -->
+
 [![Launch Stack](https://amazon-location-cloudformation-templates.s3.us-west-2.amazonaws.com/cfn-launch-stack-button.svg)](https://console.aws.amazon.com/cloudformation/home?#/stacks/quickcreate?stackName=marker-with-popup-example&templateURL=https://amazon-location-cloudformation-templates.s3.us-west-2.amazonaws.com/samples/web-js-map-with-marker-and-popup/template.yml)
 
-Once the deployment process is complete, go to the `Outputs` section to get the Cognito Identity Pool ID.
+Once the deployment process is complete, go to the `Outputs` to view ApiKey and Region.
+
+In the stack output's tab only the ApiKey name is visible, in order to get the ApiKey value:
+- Navigate to Amazon Location Service
+- Click on "API keys" from the left navigation pane
+- Click on the ApiKey `js-map-with-marker-and-popup`
+- Copy the ApiKey value
 
 ## Configure
 
-Open `index.html` and use the CloudFormation stack outputs to enter your Cognito Identity Pool ID.
+Open `index.html` and use the values gathered from above to populate apiKey and region.
 
 ## Run
 
@@ -20,7 +28,12 @@ Open `index.html` in your browser.
 
 ## Clean up
 
-If you would like to remove all of the resources created in this walkthrough, delete the CloudFormation stack called `marker-with-popup-example`.
+If you would like to remove all of the resources created in this walkthrough,
+delete the CloudFormation stack called `marker-with-popup-example`. Then, to clean up the API Key:
+- Navigate to Amazon Location Service
+- Click on "API keys" from the left navigation pane
+- Click on the ApiKey `js-map-with-marker-and-popup`
+- Press Delete
 
 ## Get help
 

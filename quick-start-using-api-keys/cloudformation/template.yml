@@ -1,20 +1,22 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: A Template to provision Amazon Location Service resources for js-map-with-geojson-polygon
+Description: A Template to provision Amazon Location Service resources for js-quick-start-using-api-keys
 
-# Create an API key that has access to maps
+# Create an API key that has access to maps and places
 Resources:
   AmazonLocationApiKey:
     Type: AWS::Location::APIKey
     DeletionPolicy: Retain
     Properties:
-      KeyName: js-map-with-geojson-polygon
-      Description: API Key for Amazon Location Service Maps
+      KeyName: js-quick-start-using-api-keys
+      Description: API Key for Amazon Location Service Maps and Places
       NoExpiry: true
       Restrictions:
         AllowActions:
           - "geo-maps:*"
+          - "geo-places:ReverseGeocode"
         AllowResources:
           - !Sub "arn:aws:geo-maps:${AWS::Region}::provider/default"
+          - !Sub "arn:aws:geo-places:${AWS::Region}::provider/default"
 
 Outputs:
   ApiKey:

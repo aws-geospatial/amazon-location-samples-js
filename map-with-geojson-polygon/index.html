@@ -3,7 +3,7 @@
 <html>
       <head>
             <link
-                  href="https://location.aws.com/scripts/maplibre-gl@3.3.1/dist/maplibre-gl.css"
+                  href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.min.css"
                   rel="stylesheet"
             />
             <style>
@@ -17,19 +17,11 @@
       </head>
       <body>
             <div id="map" />
-            <script src="https://location.aws.com/scripts/maplibre-gl@3.3.1/dist/maplibre-gl.js"></script>
-            <script src="https://location.aws.com/scripts/@aws/amazon-location-utilities-auth-helper@1.0.2/dist/amazonLocationAuthHelper.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.min.js"></script>
             <script>
                   async function initializeMap() {
-                        const identityPoolId = "<Identity Pool ID>";
-                        const mapName = "js-map-with-geojson-polygon";
-                        const region = identityPoolId.split(":")[0];
-
-                        // Create an authentication helper instance using credentials from Cognito
-                        const authHelper =
-                              await amazonLocationAuthHelper.withIdentityPoolId(
-                                    identityPoolId
-                              );
+                        const apiKey = "<YOUR_AWS_API_KEY>";
+                        const region = "<YOUR_AWS_REGION>";
 
                         // Initialize the map
                         const map = new maplibregl.Map({
@@ -37,11 +29,9 @@
                               // Initial map centerpoint
                               center: [-123.12128, 49.281],
                               // Initial zoom level
-                              zoom: 14,
-                              style: `https://maps.geo.${region}.amazonaws.com/maps/v0/maps/${mapName}/style-descriptor`,
-                              hash: true,
-                              // Provides options required to make requests to Amazon Location
-                              ...authHelper.getMapAuthenticationOptions(),
+                              zoom: 13,
+                              style: `https://maps.geo.${region}.amazonaws.com/v2/styles/Standard/descriptor?key=${apiKey}`,
+                              validateStyle: false, // Disable style validation for faster map load
                         });
 
                         // Add navigation controls
